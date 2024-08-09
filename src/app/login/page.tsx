@@ -28,7 +28,7 @@ export default function Login() {
 
   const onSubmit = async (data: LoginSchemaType) => {
     try {
-      await axios.post('/auth/login', {
+      await axios.post('/login', {
         email: data.email,
         password: data.password,
       })

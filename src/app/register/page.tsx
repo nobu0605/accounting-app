@@ -54,7 +54,7 @@ export default function Register() {
   }
 
   const onSubmit = (data: RegisterSchemaType) => {
-    axios.post('/auth/register', data)
+    axios.post('/register', data)
     router.push('/login')
   }
 
