@@ -1,15 +1,12 @@
-// import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
-// import { errorMessages } from '@/constants/error'
-// import { verifyPassword } from '@/utils/api/auth'
-// import { signJwt, tokenMaxAge } from '@/utils/api/jwt'
-// import { serializeBigInt } from '@/utils/api/serialize'
+import { tokenMaxAge } from '@/utils/api/jwt'
 
-// const prisma = new PrismaClient()
+const prisma = new PrismaClient()
 
 export async function POST(request: Request) {
   const { email, password } = await request.json()
-  // let token = ''
+  const token = ''
   // try {
   //   const user = await prisma.user.findUnique({
   //     where: { email },
@@ -42,12 +39,12 @@ export async function POST(request: Request) {
   // }
 
   const response = NextResponse.json({ message: 'Token set' })
-  // response.cookies.set('token', token, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV === 'production',
-  //   maxAge: tokenMaxAge,
-  //   path: '/',
-  // })
+  response.cookies.set('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: tokenMaxAge,
+    path: '/',
+  })
 
   return response
 }
