@@ -2,15 +2,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 import { Button } from '@/components/ui/Button'
 import { TextField } from '@/components/ui/TextField'
 import { errorColor } from '@/constants/datePicker'
-import { AuthContainer } from '@/features/auth/components/AuthContainer'
+import { AuthLayout } from '@/features/auth/components/AuthLayout'
 import { registerSchema, RegisterSchemaType } from '@/features/register/schema'
-import axios from '@/utils/axios'
+import axios from '@/utils/client/axios'
 
 export default function Register() {
   const {
@@ -35,7 +36,7 @@ export default function Register() {
       foundedDate: dayjs(),
     },
   })
-
+  const router = useRouter()
   const handleDateError = (
     error: ReactNode,
     fieldName: 'fiscalStartDate' | 'fiscalEndDate' | 'foundedDate',
@@ -53,13 +54,13 @@ export default function Register() {
   }
 
   const onSubmit = (data: RegisterSchemaType) => {
-    console.log(data)
-    axios.post('/register', data)
+    axios.post('/auth/register', data)
+    router.push('/login')
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <AuthContainer>
+      <AuthLayout>
         <h1>Create an account</h1>
         <TextField
           name='userName'
@@ -191,7 +192,7 @@ export default function Register() {
           sx={errorColor(!!errors?.foundedDate)}
         />
         <Button type='submit'>Register</Button>
-      </AuthContainer>
+      </AuthLayout>
     </form>
   )
 }

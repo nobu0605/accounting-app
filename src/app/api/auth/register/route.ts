@@ -1,15 +1,14 @@
-import { PrismaClient, Company, User } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import { PrismaClient, Company } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
 import { registerSchemaForBackEnd } from '@/features/register/schema'
+import { hashPassword } from '@/utils/api/auth'
 
 const prisma = new PrismaClient()
 
 export async function POST(req: NextRequest) {
   const request = await req.json()
 
-  let user: User | null = null
   try {
     const validatedData = registerSchemaForBackEnd.parse(request)
     const {
@@ -23,7 +22,7 @@ export async function POST(req: NextRequest) {
       fiscalEndDate,
       foundedDate,
     } = validatedData
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await hashPassword(password)
 
     await prisma.$transaction(async (prisma) => {
       const company: Company = await prisma.company.create({
@@ -36,7 +35,7 @@ export async function POST(req: NextRequest) {
           foundedDate,
         },
       })
-      user = await prisma.user.create({
+      await prisma.user.create({
         data: {
           email,
           password: hashedPassword,
@@ -44,8 +43,6 @@ export async function POST(req: NextRequest) {
           companyId: company.id,
         },
       })
-
-      return NextResponse.json(user)
     })
   } catch (error) {
     console.error('error: ', error)
@@ -61,4 +58,11 @@ export async function POST(req: NextRequest) {
   } finally {
     await prisma.$disconnect()
   }
+
+  return NextResponse.json(
+    {
+      message: 'Resource created successfully',
+    },
+    { status: 200 },
+  )
 }

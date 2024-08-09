@@ -1,7 +1,7 @@
 import { PrismaClient, User } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
-import { serializeBigInt } from '@/utils/serialize'
+import { serializeBigInt } from '@/utils/api/serialize'
 
 const prisma = new PrismaClient()
 
