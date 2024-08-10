@@ -24,6 +24,21 @@ export async function POST(req: NextRequest) {
     } = validatedData
     const hashedPassword = await hashPassword(password)
 
+    const user = await prisma.user.findUnique({
+      where: { email },
+    })
+    if (user) {
+      return NextResponse.json(
+        {
+          error: {
+            code: 409,
+            message: 'The email is already in use',
+          },
+        },
+        { status: 409 },
+      )
+    }
+
     await prisma.$transaction(async (prisma) => {
       const company: Company = await prisma.company.create({
         data: {
