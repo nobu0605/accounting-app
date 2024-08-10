@@ -1,17 +1,18 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Alert from '@mui/material/Alert'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/Button'
+import { Snackbar } from '@/components/ui/Snackbar'
 import { TextField } from '@/components/ui/TextField'
 import { AuthLayout } from '@/features/auth/components/AuthLayout'
 import { loginSchema, LoginSchemaType } from '@/features/login/schema'
 import axios from '@/utils/client/axios'
 
 export default function Login() {
-  const [isLoginError, setIsLoginError] = useState(false)
+  const [isError, setIsError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const {
     watch,
@@ -27,6 +28,7 @@ export default function Login() {
   })
 
   const onSubmit = async (data: LoginSchemaType) => {
+    setIsLoading(true)
     try {
       await axios.post('/auth/login', {
         email: data.email,
@@ -35,16 +37,29 @@ export default function Login() {
       router.push('/')
     } catch (error) {
       console.error('error: ', error)
-      setIsLoginError(true)
+      setIsError(true)
       setTimeout(() => {
-        setIsLoginError(false)
+        setIsError(false)
       }, 2000)
     }
+    setIsLoading(false)
   }
 
   return (
     <>
-      {isLoginError && <Alert severity='error'>Invalid username or password.</Alert>}
+      {isError && (
+        <Snackbar
+          vertical='top'
+          horizontal='center'
+          isOpen={isError}
+          setIsOpen={setIsError}
+          autoHideDuration={7000}
+          key={'top' + 'center'}
+          message={'Invalid username or password'}
+          severity='error'
+          variant='filled'
+        />
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <AuthLayout>
           <h1>Login</h1>
@@ -67,7 +82,9 @@ export default function Login() {
             helperText={errors.password?.message}
             required
           />
-          <Button type='submit'>Login</Button>
+          <Button disabled={isLoading} type='submit'>
+            Login
+          </Button>
         </AuthLayout>
       </form>
     </>
