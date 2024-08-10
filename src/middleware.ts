@@ -59,7 +59,7 @@ export async function middleware(req: NextRequest) {
   )
   // for client routes
   if (clientUrlsWithoutAuth.includes(req.nextUrl.pathname)) {
-    return
+    return NextResponse.next()
   }
 
   try {
