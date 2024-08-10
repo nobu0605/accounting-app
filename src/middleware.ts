@@ -14,7 +14,11 @@ export async function middleware(req: NextRequest) {
   const isAllowedOrigin = allowedOrigins.includes(origin)
   const response = NextResponse.next()
   const token = cookies().get('token')?.value || ''
-
+  console.log('req.nextUrl.pathname: ', req.nextUrl.pathname)
+  console.log(
+    'clientUrlsWithoutAuth.includes(req.nextUrl.pathname): ',
+    clientUrlsWithoutAuth.includes(req.nextUrl.pathname),
+  )
   // for api routes
   if (req.nextUrl.pathname.startsWith('/api/')) {
     if (!isAllowedOrigin && env === 'production') {
@@ -52,11 +56,6 @@ export async function middleware(req: NextRequest) {
     return response
   }
 
-  console.log('req.nextUrl.pathname: ', req.nextUrl.pathname)
-  console.log(
-    'clientUrlsWithoutAuth.includes(req.nextUrl.pathname): ',
-    clientUrlsWithoutAuth.includes(req.nextUrl.pathname),
-  )
   // for client routes
   if (clientUrlsWithoutAuth.includes(req.nextUrl.pathname)) {
     return NextResponse.next()
