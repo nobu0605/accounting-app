@@ -70,8 +70,8 @@ export default function Register() {
           setIsError(false)
         }, 2000)
       }
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   return (

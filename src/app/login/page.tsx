@@ -41,8 +41,8 @@ export default function Login() {
       setTimeout(() => {
         setIsError(false)
       }, 2000)
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   return (
