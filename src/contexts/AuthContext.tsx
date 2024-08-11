@@ -29,7 +29,6 @@ const AuthProvider: FC<Props> = ({ children }) => {
 
     const result: AxiosResponse<User | null> = await axios.post(`/auth/me`)
 
-    console.log('result: ', result)
     if (!result.data) {
       router.push('/login')
     } else {
