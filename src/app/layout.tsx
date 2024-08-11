@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Header } from '@/components/common/Header'
 import './globals.css'
 import { Flex } from '@/components/ui/Flex'
+import { AuthProvider } from '@/contexts/AuthContext'
 import MuiLocalizationProvider from '@/lib/MuiLocalizationProvider'
 import StyledComponentsRegistry from '@/lib/StyledComponentsRegistry'
 
@@ -27,10 +28,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <StyledComponentsRegistry>
           <MuiLocalizationProvider>
-            <Flex $gap='10px' $direction='column'>
-              <Header />
-              <div style={{ margin: '10px' }}>{children}</div>
-            </Flex>
+            <AuthProvider>
+              <Flex $gap='10px' $direction='column'>
+                <Header />
+                <div style={{ margin: '10px' }}>{children}</div>
+              </Flex>
+            </AuthProvider>
           </MuiLocalizationProvider>
         </StyledComponentsRegistry>
       </body>
