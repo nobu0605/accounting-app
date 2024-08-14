@@ -5,7 +5,7 @@ const secret = process.env.JWT_SECRET
   : (() => {
       throw new Error('JWT_SECRET is not defined')
     })()
-export const tokenMaxAge = 60 * 60 * 24 * 3 // 3 days
+export const tokenMaxAge = 60 * 60 // 1 hour
 
 export const signJwt = async (payload: JWTPayload): Promise<string> => {
   if (!payload || typeof payload !== 'object') {
