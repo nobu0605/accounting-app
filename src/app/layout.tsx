@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { Header } from '@/components/common/Header'
 import './globals.css'
+import { Layout } from '@/components/common/Layout'
 import { Flex } from '@/components/ui/Flex'
 import { AuthProvider } from '@/contexts/AuthContext'
 import MuiLocalizationProvider from '@/lib/MuiLocalizationProvider'
@@ -30,8 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <MuiLocalizationProvider>
             <AuthProvider>
               <Flex $gap='10px' $direction='column'>
-                <Header />
-                <div style={{ margin: '10px' }}>{children}</div>
+                <Layout>{children}</Layout>
               </Flex>
             </AuthProvider>
           </MuiLocalizationProvider>

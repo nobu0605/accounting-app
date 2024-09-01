@@ -7,7 +7,7 @@ type Props = {
   children: React.ReactNode
 }
 
-export function AuthLayout({ children }: Props) {
+export function AuthFormLayout({ children }: Props) {
   return <StyledAuthFlex $direction='column'>{children}</StyledAuthFlex>
 }
 

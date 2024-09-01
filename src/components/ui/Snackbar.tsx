@@ -4,7 +4,7 @@ import Alert from '@mui/material/Alert'
 type Props = {
   isOpen: boolean
   message: string
-  setIsOpen: (value: boolean) => void
+  onClose: () => void
   vertical?: 'top' | 'bottom'
   horizontal?: 'left' | 'center' | 'right'
   autoHideDuration?: number
@@ -15,7 +15,7 @@ type Props = {
 export function Snackbar({
   isOpen,
   message,
-  setIsOpen,
+  onClose,
   vertical = 'top',
   horizontal = 'center',
   autoHideDuration,
@@ -26,11 +26,11 @@ export function Snackbar({
     <MuiSnackbar
       anchorOrigin={{ vertical, horizontal }}
       open={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={onClose}
       autoHideDuration={autoHideDuration}
       key={vertical + horizontal}
     >
-      <Alert onClose={() => setIsOpen(false)} severity={severity} variant={variant}>
+      <Alert onClose={onClose} severity={severity} variant={variant}>
         {message}
       </Alert>
     </MuiSnackbar>

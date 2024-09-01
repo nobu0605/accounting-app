@@ -2,15 +2,20 @@
 import { User } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 import { useRouter, usePathname } from 'next/navigation'
-import React, { createContext, FC, useEffect, useState } from 'react'
+import React, { createContext, FC, useEffect, useState, useContext } from 'react'
+import { fiscalYearLocalStorageKey } from '@/constants/localStorageKeys'
+import { publicRoutes } from '@/features/auth/constant'
 import axios from '@/utils/client/axios'
 
 const AuthContext = createContext<User | null>(null)
 
-const urlsWithoutAuth = ['/register', '/login']
-
 type Props = {
   children: React.ReactNode
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  return context
 }
 
 const AuthProvider: FC<Props> = ({ children }) => {
@@ -23,7 +28,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
   }, [pathName])
 
   async function checkAuth() {
-    if (urlsWithoutAuth.includes(pathName)) {
+    if (publicRoutes.includes(pathName)) {
       return
     }
 
@@ -33,6 +38,10 @@ const AuthProvider: FC<Props> = ({ children }) => {
       router.push('/login')
     } else {
       setUser(result.data)
+      if (!localStorage.getItem(fiscalYearLocalStorageKey)) {
+        const res = await axios.get(`/fiscal-year/${result.data.companyId}`)
+        localStorage.setItem(fiscalYearLocalStorageKey, JSON.stringify(res.data))
+      }
     }
   }
 

@@ -1,3 +1,9 @@
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('admin', 'user', 'guest');
+
+-- CreateEnum
+CREATE TYPE "AccountType" AS ENUM ('sales', 'costOfGoodsSold', 'sellingGeneralAdminExpenses', 'nonOperatingIncome', 'nonOperatingExpenses', 'specialIncome', 'specialExpenses', 'currentAssets', 'nonCurrentAssets', 'currentLiabilities', 'nonCurrentLiabilities', 'equity');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" BIGSERIAL NOT NULL,
@@ -7,6 +13,7 @@ CREATE TABLE "User" (
     "emailVerifiedAt" TIMESTAMP(3),
     "password" TEXT NOT NULL,
     "rememberToken" TEXT,
+    "role" "Role" NOT NULL DEFAULT 'user',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -30,13 +37,23 @@ CREATE TABLE "Company" (
     "industryClass" TEXT,
     "numberOfEmployees" INTEGER,
     "foundedDate" TIMESTAMP(3) NOT NULL,
-    "fiscalStartDate" TIMESTAMP(3) NOT NULL,
-    "fiscalEndDate" TIMESTAMP(3) NOT NULL,
     "accountingTerm" INTEGER NOT NULL DEFAULT 1,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Company_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "FiscalYear" (
+    "id" BIGSERIAL NOT NULL,
+    "companyId" BIGINT NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "FiscalYear_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -55,8 +72,8 @@ CREATE TABLE "Account" (
     "id" BIGSERIAL NOT NULL,
     "companyId" BIGINT NOT NULL,
     "name" TEXT NOT NULL,
-    "accountKey" TEXT NOT NULL,
-    "classification" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+    "type" "AccountType" NOT NULL,
     "isDefaultAccount" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -69,7 +86,7 @@ CREATE TABLE "SubAccount" (
     "id" BIGSERIAL NOT NULL,
     "accountId" BIGINT NOT NULL,
     "name" TEXT NOT NULL,
-    "subAccountKey" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -77,41 +94,30 @@ CREATE TABLE "SubAccount" (
 );
 
 -- CreateTable
-CREATE TABLE "Journal" (
+CREATE TABLE "JournalEntry" (
     "id" BIGSERIAL NOT NULL,
     "companyId" BIGINT NOT NULL,
+    "fiscalYearId" BIGINT NOT NULL,
     "dealDate" TIMESTAMP(3) NOT NULL,
-    "debitAccountKey" TEXT NOT NULL,
-    "debitSubAccountKey" TEXT,
-    "debitAmount" INTEGER NOT NULL,
-    "creditAccountKey" TEXT NOT NULL,
-    "creditSubAccountKey" TEXT,
-    "creditAmount" INTEGER NOT NULL,
-    "remark" TEXT,
-    "hasMultipleJournal" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Journal_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "JournalEntry_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "MultipleJournal" (
+CREATE TABLE "JournalEntryLine" (
     "id" BIGSERIAL NOT NULL,
-    "journalId" BIGINT NOT NULL,
-    "multipleJournalIndex" INTEGER NOT NULL,
-    "dealDate" TIMESTAMP(3) NOT NULL,
-    "debitAccountKey" TEXT,
-    "debitSubAccountKey" TEXT,
-    "debitAmount" INTEGER NOT NULL,
-    "creditAccountKey" TEXT,
-    "creditSubAccountKey" TEXT,
-    "creditAmount" INTEGER NOT NULL,
-    "remark" TEXT,
+    "journalEntryId" BIGINT NOT NULL,
+    "accountId" BIGINT NOT NULL,
+    "subAccountId" BIGINT NOT NULL,
+    "debit" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "credit" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "description" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "MultipleJournal_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "JournalEntryLine_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -130,22 +136,22 @@ CREATE INDEX "Department_companyId_idx" ON "Department"("companyId");
 CREATE INDEX "Account_companyId_idx" ON "Account"("companyId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Account_companyId_accountKey_key" ON "Account"("companyId", "accountKey");
+CREATE UNIQUE INDEX "Account_companyId_code_key" ON "Account"("companyId", "code");
 
 -- CreateIndex
 CREATE INDEX "SubAccount_accountId_idx" ON "SubAccount"("accountId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "SubAccount_accountId_subAccountKey_key" ON "SubAccount"("accountId", "subAccountKey");
+CREATE UNIQUE INDEX "SubAccount_accountId_code_key" ON "SubAccount"("accountId", "code");
 
 -- CreateIndex
-CREATE INDEX "Journal_companyId_idx" ON "Journal"("companyId");
-
--- CreateIndex
-CREATE INDEX "MultipleJournal_journalId_idx" ON "MultipleJournal"("journalId");
+CREATE INDEX "JournalEntry_companyId_idx" ON "JournalEntry"("companyId");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FiscalYear" ADD CONSTRAINT "FiscalYear_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Department" ADD CONSTRAINT "Department_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -157,7 +163,16 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_companyId_fkey" FOREIGN KEY ("comp
 ALTER TABLE "SubAccount" ADD CONSTRAINT "SubAccount_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Journal" ADD CONSTRAINT "Journal_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "JournalEntry" ADD CONSTRAINT "JournalEntry_fiscalYearId_fkey" FOREIGN KEY ("fiscalYearId") REFERENCES "FiscalYear"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "MultipleJournal" ADD CONSTRAINT "MultipleJournal_journalId_fkey" FOREIGN KEY ("journalId") REFERENCES "Journal"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "JournalEntry" ADD CONSTRAINT "JournalEntry_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JournalEntryLine" ADD CONSTRAINT "JournalEntryLine_journalEntryId_fkey" FOREIGN KEY ("journalEntryId") REFERENCES "JournalEntry"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JournalEntryLine" ADD CONSTRAINT "JournalEntryLine_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JournalEntryLine" ADD CONSTRAINT "JournalEntryLine_subAccountId_fkey" FOREIGN KEY ("subAccountId") REFERENCES "SubAccount"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
