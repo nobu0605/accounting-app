@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/Button'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { TextField } from '@/components/ui/TextField'
-import { AuthLayout } from '@/features/auth/components/AuthLayout'
+import { AuthFormLayout } from '@/features/auth/components/AuthFormLayout'
 import { loginSchema, LoginSchemaType } from '@/features/login/schema'
 import axios from '@/utils/client/axios'
 
@@ -52,7 +52,7 @@ export default function Login() {
           vertical='top'
           horizontal='center'
           isOpen={isError}
-          setIsOpen={setIsError}
+          onClose={() => setIsError(false)}
           autoHideDuration={7000}
           key={'top' + 'center'}
           message={'Invalid username or password'}
@@ -61,7 +61,7 @@ export default function Login() {
         />
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <AuthLayout>
+        <AuthFormLayout>
           <h1>Login</h1>
           <TextField
             name='email'
@@ -85,7 +85,7 @@ export default function Login() {
           <Button disabled={isLoading} type='submit'>
             Login
           </Button>
-        </AuthLayout>
+        </AuthFormLayout>
       </form>
     </>
   )

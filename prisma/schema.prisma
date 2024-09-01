@@ -8,6 +8,12 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+enum Role {
+  admin
+  user
+  guest
+}
+
 model User {
   id              BigInt    @id @default(autoincrement())
   companyId       BigInt
@@ -16,6 +22,7 @@ model User {
   emailVerifiedAt DateTime?
   password        String
   rememberToken   String?
+  role            Role   @default(user)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   company         Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
@@ -38,15 +45,25 @@ model Company {
   industryClass      String?
   numberOfEmployees  Int?
   foundedDate        DateTime
-  fiscalStartDate    DateTime
-  fiscalEndDate      DateTime
   accountingTerm     Int       @default(1)
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
+  fiscalYears        FiscalYear[]
   users              User[]
   departments        Department[]
   accounts           Account[]
-  journals           Journal[]
+  journalEntries     JournalEntry[]
+}
+
+model FiscalYear {
+  id        BigInt       @id @default(autoincrement())
+  companyId BigInt
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  journalEntries JournalEntry[]
+  company   Company   @relation(fields: [companyId], references: [id])
 }
 
 model Department {
@@ -60,70 +77,76 @@ model Department {
   @@index([companyId])
 }
 
+enum AccountType {
+  sales
+  costOfGoodsSold
+  sellingGeneralAdminExpenses
+  nonOperatingIncome
+  nonOperatingExpenses
+  specialIncome
+  specialExpenses
+  currentAssets
+  nonCurrentAssets
+  currentLiabilities
+  nonCurrentLiabilities
+  equity
+}
+
 model Account {
   id                 BigInt     @id @default(autoincrement())
   companyId          BigInt
   name               String
-  accountKey         String     
-  classification     String
+  code               String     
+  type               AccountType
   isDefaultAccount   Boolean
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
   company            Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
   subAccounts        SubAccount[]
+  journalEntryLines  JournalEntryLine[]
 
   @@index([companyId])
-  @@unique([companyId, accountKey])
+  @@unique([companyId, code])
 }
 
 model SubAccount {
   id              BigInt    @id @default(autoincrement())
   accountId       BigInt
   name            String
-  subAccountKey   String    
+  code            String  
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   account         Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
-
+  journalEntryLines  JournalEntryLine[]
+  
   @@index([accountId])
-  @@unique([accountId, subAccountKey])
+  @@unique([accountId, code])
 }
 
-model Journal {
+model JournalEntry {
   id                    BigInt      @id @default(autoincrement())
   companyId             BigInt
+  fiscalYearId          BigInt
   dealDate              DateTime
-  debitAccountKey       String
-  debitSubAccountKey    String?
-  debitAmount           Int
-  creditAccountKey      String
-  creditSubAccountKey   String?
-  creditAmount          Int
-  remark                String?
-  hasMultipleJournal    Boolean
   createdAt             DateTime   @default(now())
   updatedAt             DateTime   @updatedAt
+  fiscalYear            FiscalYear @relation(fields: [fiscalYearId], references: [id])
   company               Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  multipleJournals      MultipleJournal[]
-
+  lines                 JournalEntryLine[]
   @@index([companyId])
 }
 
-model MultipleJournal {
-  id                    BigInt      @id @default(autoincrement())
-  journalId             BigInt
-  multipleJournalIndex  Int
-  dealDate              DateTime
-  debitAccountKey       String?
-  debitSubAccountKey    String?
-  debitAmount           Int
-  creditAccountKey      String?
-  creditSubAccountKey   String?
-  creditAmount          Int
-  remark                String?
-  createdAt             DateTime   @default(now())
-  updatedAt             DateTime   @updatedAt
-  journal               Journal    @relation(fields: [journalId], references: [id], onDelete: Cascade)
-
-  @@index([journalId])
+model JournalEntryLine {
+  id            BigInt        @id @default(autoincrement())
+  journalEntryId BigInt
+  accountId     BigInt
+  subAccountId  BigInt?
+  debit         Float      @default(0)
+  credit        Float      @default(0)
+  description   String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  journalEntry  JournalEntry @relation(fields: [journalEntryId], references: [id])
+  account       Account    @relation(fields: [accountId], references: [id])
+  subAccount    SubAccount? @relation(fields: [subAccountId], references: [id])
 }

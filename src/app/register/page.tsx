@@ -1,16 +1,14 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/navigation'
 import { ReactNode, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { styled } from 'styled-components'
 import { Button } from '@/components/ui/Button'
+import { DatePicker } from '@/components/ui/DatePicker'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { TextField } from '@/components/ui/TextField'
-import { errorColor } from '@/constants/datePicker'
-import { AuthLayout } from '@/features/auth/components/AuthLayout'
+import { AuthFormLayout } from '@/features/auth/components/AuthFormLayout'
 import { registerSchema, RegisterSchemaType } from '@/features/register/schema'
 import axios, { originalAxios } from '@/utils/client/axios'
 
@@ -81,7 +79,7 @@ export default function Register() {
           vertical='top'
           horizontal='center'
           isOpen={isError}
-          setIsOpen={setIsError}
+          onClose={() => setIsError(false)}
           autoHideDuration={7000}
           key={'top' + 'center'}
           message={errorMessage}
@@ -90,7 +88,7 @@ export default function Register() {
         />
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <AuthLayout>
+        <AuthFormLayout>
           <h1>Create an account</h1>
           <TextField
             name='userName'
@@ -161,11 +159,7 @@ export default function Register() {
             helperText={errors.numberOfEmployees?.message}
           />
           <DatePicker
-            label={
-              <>
-                Fiscal Start Date <StyledRequiredAsterisk> *</StyledRequiredAsterisk>
-              </>
-            }
+            label={'Fiscal Start Date'}
             value={watch('fiscalStartDate')}
             onChange={(newValue) => {
               setValue('fiscalStartDate', newValue ?? dayjs())
@@ -173,64 +167,38 @@ export default function Register() {
             onError={(error) => {
               handleDateError(error, 'fiscalStartDate')
             }}
-            slotProps={{
-              textField: {
-                helperText: errors.fiscalStartDate?.message,
-              },
-            }}
-            sx={errorColor(!!errors?.fiscalStartDate)}
+            errorMessage={errors.fiscalStartDate?.message}
+            isError={!!errors?.fiscalStartDate}
           />
           <DatePicker
-            label={
-              <>
-                Fiscal End Date
-                <StyledRequiredAsterisk> *</StyledRequiredAsterisk>
-              </>
-            }
+            label={'Fiscal End Date'}
             value={watch('fiscalEndDate')}
             onChange={(newValue) => {
               setValue('fiscalEndDate', newValue ?? dayjs())
             }}
-            slotProps={{
-              textField: {
-                helperText: errors.fiscalEndDate?.message,
-              },
-            }}
             onError={(error) => {
               handleDateError(error, 'fiscalEndDate')
             }}
-            sx={errorColor(!!errors?.fiscalEndDate)}
+            errorMessage={errors.fiscalEndDate?.message}
+            isError={!!errors?.fiscalEndDate}
           />
           <DatePicker
-            label={
-              <>
-                Founded Date<StyledRequiredAsterisk> *</StyledRequiredAsterisk>
-              </>
-            }
+            label={'Founded Date'}
             value={watch('foundedDate')}
             onChange={(newValue) => {
               setValue('foundedDate', newValue ?? dayjs())
             }}
-            slotProps={{
-              textField: {
-                helperText: errors.foundedDate?.message,
-              },
-            }}
             onError={(error) => {
               handleDateError(error, 'foundedDate')
             }}
-            sx={errorColor(!!errors?.foundedDate)}
+            errorMessage={errors.foundedDate?.message}
+            isError={!!errors?.foundedDate}
           />
           <Button disabled={isLoading} type='submit'>
             Register
           </Button>
-        </AuthLayout>
+        </AuthFormLayout>
       </form>
     </>
   )
 }
-
-const StyledRequiredAsterisk = styled('span')`
-  color: #d32f2f;
-  font-size: 20px;
-`

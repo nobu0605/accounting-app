@@ -1,10 +1,9 @@
-import { PrismaClient, Company } from '@prisma/client'
+import { Company } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
 import { registerSchemaForBackEnd } from '@/features/register/schema'
 import { hashPassword } from '@/utils/api/auth'
-
-const prisma = new PrismaClient()
+import prisma from '@/utils/api/db'
 
 export async function POST(req: NextRequest) {
   const request = await req.json()
@@ -45,8 +44,6 @@ export async function POST(req: NextRequest) {
           name: companyName,
           industryClass,
           numberOfEmployees,
-          fiscalStartDate,
-          fiscalEndDate,
           foundedDate,
         },
       })
@@ -56,6 +53,14 @@ export async function POST(req: NextRequest) {
           password: hashedPassword,
           name: userName,
           companyId: company.id,
+        },
+      })
+
+      await prisma.fiscalYear.create({
+        data: {
+          companyId: company.id,
+          startDate: fiscalStartDate,
+          endDate: fiscalEndDate,
         },
       })
     })
