@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { ServiceName } from '@/components/common/ServiceName'
 import { Flex } from '@/components/ui/Flex'
 import { mainColor } from '@/constants/colors'
-import { fiscalYearLocalStorageKey } from '@/constants/localStorageKeys'
 import { useAuth } from '@/contexts/AuthContext'
+import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 
 type Props = {
   isPrivateRoute: boolean
@@ -14,8 +14,7 @@ type Props = {
 
 export function Header({ isPrivateRoute }: Props) {
   const user = useAuth()
-  const fiscalYear = localStorage.getItem(fiscalYearLocalStorageKey)
-  const fiscalYearObj = JSON.parse(fiscalYear || '{}')
+  const fiscalYear = getFiscalYear()
 
   return (
     <StyledHeaderFlex $direction='column'>
@@ -29,8 +28,8 @@ export function Header({ isPrivateRoute }: Props) {
               {user && (
                 <>
                   <span>
-                    Fiscal year : {dayjs(fiscalYearObj?.startDate).format('YYYY/MM')} ~{' '}
-                    {dayjs(fiscalYearObj?.endDate).format('YYYY/MM')}
+                    Fiscal year : {dayjs(fiscalYear?.startDate).format('YYYY/MM')} ~{' '}
+                    {dayjs(fiscalYear?.endDate).format('YYYY/MM')}
                   </span>
                   <Flex $direction='row' $gap={'8px'}>
                     <StyledUserInfoSpan>Email :{user?.email}</StyledUserInfoSpan>

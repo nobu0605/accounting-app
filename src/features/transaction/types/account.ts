@@ -6,7 +6,6 @@ export type Account = {
   name: string
   code: string
   type: AccountType
-  isDefaultAccount: boolean
   subAccounts?: SubAccount[]
 }
 

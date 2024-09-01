@@ -5,54 +5,48 @@ import prisma from '@/utils/api/db'
 import { serializeBigInt } from '@/utils/api/serialize'
 
 export async function GET(req: NextRequest, { params }: { params: { companyId: string } }) {
-  let accounts: {
-    accounts: Account[]
-  }[] = [
-    {
-      accounts: [],
-    },
-  ]
+  let accounts: Account[] = []
 
   const companyId = parseInt(params.companyId)
-  if (isNaN(companyId)) {
+  const company = await prisma.company.findUnique({
+    where: {
+      id: companyId,
+    },
+  })
+  if (isNaN(companyId) || !company) {
     return NextResponse.json(
       {
         error: {
-          code: 400,
-          message: 'Invalid company ID',
+          code: 404,
+          message: 'company not found',
         },
       },
-      { status: 400 },
+      { status: 404 },
     )
   }
 
   try {
-    accounts = await prisma.company.findMany({
+    accounts = await prisma.account.findMany({
       select: {
-        accounts: {
+        id: true,
+        companyId: true,
+        name: true,
+        code: true,
+        type: true,
+        subAccounts: {
           select: {
             id: true,
-            companyId: true,
             name: true,
             code: true,
-            type: true,
-            isDefaultAccount: true,
-            subAccounts: {
-              select: {
-                id: true,
-                name: true,
-                code: true,
-              },
-            },
           },
         },
       },
       where: {
-        id: companyId,
+        companyId,
       },
     })
 
-    if (accounts[0].accounts.length === 0) {
+    if (accounts.length === 0) {
       return NextResponse.json(
         {
           error: {
@@ -65,7 +59,7 @@ export async function GET(req: NextRequest, { params }: { params: { companyId: s
     }
 
     accounts = serializeBigInt(accounts)
-    return NextResponse.json(accounts[0].accounts)
+    return NextResponse.json(accounts)
   } catch (error) {
     console.error('error: ', error)
     return NextResponse.json(

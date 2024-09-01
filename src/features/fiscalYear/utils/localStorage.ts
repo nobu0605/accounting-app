@@ -1,7 +1,8 @@
 import { fiscalYearLocalStorageKey } from '@/constants/localStorageKeys'
 import { fiscalYearSchema, FiscalYearSchemaType } from '@/features/fiscalYear/schema'
 
-const localStorageData = localStorage?.getItem(fiscalYearLocalStorageKey) || ''
+const localStorageData =
+  (typeof window !== 'undefined' && localStorage?.getItem(fiscalYearLocalStorageKey)) || '{}'
 
 export const parsedData = JSON.parse(localStorageData)
 
