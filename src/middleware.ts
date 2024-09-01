@@ -9,7 +9,9 @@ const allowedOrigins = ['http://localhost:3000', 'https://accounting-app-six.ver
 const apiUrlsWithoutAuth = ['/api/auth/register', '/api/auth/login', '/api/auth/me']
 
 export async function middleware(req: NextRequest) {
-  const origin = req.headers.get('origin') ?? ''
+  const origin = req.headers.get('authority') ?? ''
+
+  console.log('origin: ', origin)
   const isAllowedOrigin = allowedOrigins.includes(origin)
   const response = NextResponse.next()
   const token = cookies().get('token')?.value || ''
