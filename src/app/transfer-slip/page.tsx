@@ -2,7 +2,7 @@
 import { styled } from 'styled-components'
 import { TransferSlipTable } from '@/features/transaction/TransferSlipTable'
 
-export default function Transaction() {
+export default function TransferSlip() {
   return (
     <StyledTableDiv>
       <TransferSlipTable />

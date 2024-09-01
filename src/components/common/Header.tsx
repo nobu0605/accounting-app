@@ -44,8 +44,11 @@ export function Header({ isPrivateRoute }: Props) {
               <Link href={'/'}>
                 <StyledMenuList>Home</StyledMenuList>
               </Link>
-              <Link href={'/transaction'}>
-                <StyledMenuList>Transaction</StyledMenuList>
+              <Link href={'/transfer-slip'}>
+                <StyledMenuList>Transfer Slip</StyledMenuList>
+              </Link>
+              <Link href={'/journals'}>
+                <StyledMenuList>Journals</StyledMenuList>
               </Link>
             </StyledMenuLists>
           </StyledMenuDiv>
