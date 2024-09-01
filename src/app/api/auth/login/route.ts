@@ -8,8 +8,15 @@ import { serializeBigInt } from '@/utils/api/serialize'
 export async function POST(request: Request) {
   const { email, password } = await request.json()
   let token = ''
+  let companyId: bigint | undefined = undefined
+
   try {
     const user = await prisma.user.findUnique({
+      select: {
+        id: true,
+        password: true,
+        companyId: true,
+      },
       where: { email },
     })
 
@@ -24,6 +31,7 @@ export async function POST(request: Request) {
     }
 
     token = await signJwt({ id: serializeBigInt(user.id) })
+    companyId = serializeBigInt(user.companyId)
   } catch (error) {
     console.error(error)
     return NextResponse.json(
@@ -39,7 +47,7 @@ export async function POST(request: Request) {
     await prisma.$disconnect()
   }
 
-  const response = NextResponse.json({ message: 'Token set' })
+  const response = NextResponse.json({ message: 'Token set', companyId })
   response.cookies.set('token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',

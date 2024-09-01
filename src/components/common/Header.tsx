@@ -25,7 +25,7 @@ export function Header({ isPrivateRoute }: Props) {
               <ServiceName />
             </StyledServiceNameLink>
             <StyledHeaderRightFlex $direction='column'>
-              {user && (
+              {user && fiscalYear && (
                 <>
                   <span>
                     Fiscal year : {dayjs(fiscalYear?.startDate).format('YYYY/MM')} ~{' '}

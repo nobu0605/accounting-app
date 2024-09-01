@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/Button'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { TextField } from '@/components/ui/TextField'
+import { fiscalYearLocalStorageKey } from '@/constants/localStorageKeys'
 import { AuthFormLayout } from '@/features/auth/components/AuthFormLayout'
 import { loginSchema, LoginSchemaType } from '@/features/login/schema'
 import axios from '@/utils/client/axios'
@@ -30,11 +31,13 @@ export default function Login() {
   const onSubmit = async (data: LoginSchemaType) => {
     setIsLoading(true)
     try {
-      await axios.post('/auth/login', {
+      const result = await axios.post('/auth/login', {
         email: data.email,
         password: data.password,
       })
-      router.push('/')
+      const res = await axios.get(`/fiscal-year/${result.data.companyId}`)
+      localStorage.setItem(fiscalYearLocalStorageKey, JSON.stringify(res.data))
+      window.location.href = '/'
     } catch (error) {
       console.error('error: ', error)
       setIsError(true)
