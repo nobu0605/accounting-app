@@ -5,7 +5,7 @@ import { errorMessages } from '@/constants/error'
 import { verifyJwt } from '@/utils/api/jwt'
 
 const env = process.env.NODE_ENV
-const allowedOrigins = ['http://localhost:3000', 'https://accounting-app-six.vercel.app']
+const allowedOrigins = ['localhost:3000', 'accounting-app-six.vercel.app']
 const apiUrlsWithoutAuth = ['/api/auth/register', '/api/auth/login', '/api/auth/me']
 
 export async function middleware(req: NextRequest) {
