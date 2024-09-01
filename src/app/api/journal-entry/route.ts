@@ -16,24 +16,11 @@ type JournalEntryLine = {
 export async function POST(req: NextRequest) {
   const request = await req.json()
   const validatedData = journalEntriesSchemaForBackEnd.parse(request)
-  const companyId = validatedData.companyId
-
-  if (isNaN(companyId)) {
-    return NextResponse.json(
-      {
-        error: {
-          code: 400,
-          message: 'Invalid company ID',
-        },
-      },
-      { status: 400 },
-    )
-  }
 
   try {
-    const company = prisma.company.findUnique({
+    const company = await prisma.company.findUnique({
       where: {
-        id: companyId,
+        id: validatedData.companyId,
       },
     })
 
@@ -42,7 +29,7 @@ export async function POST(req: NextRequest) {
         {
           error: {
             code: 404,
-            message: 'company not found',
+            message: 'Company not found',
           },
         },
         { status: 404 },
@@ -52,33 +39,30 @@ export async function POST(req: NextRequest) {
     await prisma.$transaction(async (prisma) => {
       const journalEntry: JournalEntry = await prisma.journalEntry.create({
         data: {
-          companyId,
+          companyId: validatedData.companyId,
           fiscalYearId: validatedData.fiscalYearId,
           dealDate: validatedData.dealDate,
         },
       })
 
-      const journalEntryLines: JournalEntryLine[] = []
-
-      validatedData.journalEntries.forEach((line) => {
-        journalEntryLines.push({
+      const journalEntryLines: JournalEntryLine[] = validatedData.journalEntries.flatMap((line) => [
+        {
           journalEntryId: journalEntry.id,
           accountId: line.debitAccountId,
           subAccountId: line.debitSubAccountId,
           debit: line.debitAmount,
           credit: 0,
           description: line.description,
-        })
-
-        journalEntryLines.push({
+        },
+        {
           journalEntryId: journalEntry.id,
           accountId: line.creditAccountId,
           subAccountId: line.creditSubAccountId,
           debit: 0,
           credit: line.creditAmount,
           description: line.description,
-        })
-      })
+        },
+      ])
 
       await prisma.journalEntryLine.createMany({
         data: journalEntryLines,

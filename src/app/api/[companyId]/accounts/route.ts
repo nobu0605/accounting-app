@@ -18,7 +18,7 @@ export async function GET(req: NextRequest, { params }: { params: { companyId: s
       {
         error: {
           code: 404,
-          message: 'company not found',
+          message: 'Company not found',
         },
       },
       { status: 404 },

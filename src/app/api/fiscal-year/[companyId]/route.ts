@@ -8,15 +8,20 @@ export async function GET(req: NextRequest, { params }: { params: { companyId: s
   let fiscalYear: FiscalYear | null = null
 
   const companyId = parseInt(params.companyId)
-  if (isNaN(companyId)) {
+  const company = await prisma.company.findUnique({
+    where: {
+      id: companyId,
+    },
+  })
+  if (isNaN(companyId) || !company) {
     return NextResponse.json(
       {
         error: {
-          code: 400,
-          message: 'Invalid company ID',
+          code: 404,
+          message: 'Company not found',
         },
       },
-      { status: 400 },
+      { status: 404 },
     )
   }
 
@@ -40,7 +45,7 @@ export async function GET(req: NextRequest, { params }: { params: { companyId: s
         {
           error: {
             code: 404,
-            message: 'Accounts not found',
+            message: 'FiscalYear not found',
           },
         },
         { status: 404 },
