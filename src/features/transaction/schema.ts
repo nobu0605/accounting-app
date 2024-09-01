@@ -28,7 +28,15 @@ export function getJournalEntriesSchema(
 ) {
   return journalEntriesSchema
     .superRefine((data, ctx) => {
-      if (!isMatchTotal) setMatchTotalError(false)
+      setMatchTotalError(true)
+      if (!isMatchTotal) {
+        setMatchTotalError(false)
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Total mismatch error',
+          path: ['journalEntries'],
+        })
+      }
     })
     .refine((data) => data.dealDate.isAfter(fiscalYear?.startDate), {
       message: 'Deal Date must be after Fiscal Start Date',
