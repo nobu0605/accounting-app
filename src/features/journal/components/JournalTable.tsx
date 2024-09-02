@@ -47,7 +47,6 @@ export function JournalTable() {
     .map((e) => e.join(','))
     .join('\n')
 
-  console.log('journalsCSV: ', journalsCSV)
   useEffect(() => {
     async function getJournal() {
       if (!fiscalYear) return
