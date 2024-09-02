@@ -10,8 +10,6 @@ const apiUrlsWithoutAuth = ['/api/auth/register', '/api/auth/login', '/api/auth/
 
 export async function middleware(req: NextRequest) {
   const origin = req.headers.get('host') ?? ''
-
-  console.log('origin: ', origin)
   const isAllowedOrigin = allowedOrigins.includes(origin)
   const response = NextResponse.next()
   const token = cookies().get('token')?.value || ''

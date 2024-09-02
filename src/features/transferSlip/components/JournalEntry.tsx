@@ -3,9 +3,9 @@ import { TableRow } from '@mui/material'
 import { UseFormWatch, UseFormSetValue } from 'react-hook-form'
 import { Select } from '@/components/ui/Select'
 import { TextField } from '@/components/ui/TextField'
-import { TransferSlipTableCell } from '@/features/transaction/TransferSlipTableCell'
-import { JournalEntriesSchemaType } from '@/features/transaction/schema'
-import { Account } from '@/features/transaction/types/account'
+import { TransferSlipTableCell } from '@/features/transferSlip/components/TransferSlipTableCell'
+import { JournalEntriesSchemaType } from '@/features/transferSlip/schema'
+import { Account } from '@/features/transferSlip/types/account'
 
 type JournalEntryProps = {
   lineNumber: number
@@ -32,6 +32,7 @@ export function JournalEntry({
       <TransferSlipTableCell>
         <Select
           label='Debit account'
+          value={String(watch(`journalEntries.${lineNumber}.debitAccountId`))}
           options={accounts.map((account) => {
             return {
               id: Number(account.id),
@@ -46,6 +47,7 @@ export function JournalEntry({
       <TransferSlipTableCell>
         <Select
           label='Debit sub account'
+          value={String(watch(`journalEntries.${lineNumber}.debitSubAccountId`))}
           options={getSubAccounts(watch(`journalEntries.${lineNumber}.debitAccountId`)).map(
             (account) => {
               return {
@@ -62,6 +64,7 @@ export function JournalEntry({
       <TransferSlipTableCell>
         <TextField
           type='number'
+          value={watch(`journalEntries.${lineNumber}.debitAmount`)}
           onChange={(e) => {
             setValue(`journalEntries.${lineNumber}.debitAmount`, Number(e.target.value))
             calculateTotal()
@@ -70,6 +73,7 @@ export function JournalEntry({
       </TransferSlipTableCell>
       <TransferSlipTableCell>
         <Select
+          value={String(watch(`journalEntries.${lineNumber}.creditAccountId`))}
           label='Credit account'
           options={accounts.map((account) => {
             return {
@@ -84,6 +88,7 @@ export function JournalEntry({
       </TransferSlipTableCell>
       <TransferSlipTableCell>
         <Select
+          value={String(watch(`journalEntries.${lineNumber}.creditSubAccountId`))}
           label='Credit sub account'
           options={getSubAccounts(watch(`journalEntries.${lineNumber}.creditAccountId`)).map(
             (account) => {
@@ -101,6 +106,7 @@ export function JournalEntry({
       <TransferSlipTableCell>
         <TextField
           type='number'
+          value={watch(`journalEntries.${lineNumber}.creditAmount`)}
           onChange={(e) => {
             setValue(`journalEntries.${lineNumber}.creditAmount`, Number(e.target.value))
             calculateTotal()
@@ -109,6 +115,7 @@ export function JournalEntry({
       </TransferSlipTableCell>
       <TransferSlipTableCell>
         <TextField
+          value={watch(`journalEntries.${lineNumber}.description`) || ''}
           onChange={(e) => {
             setValue(`journalEntries.${lineNumber}.description`, e.target.value)
           }}
