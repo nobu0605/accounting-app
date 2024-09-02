@@ -6,13 +6,14 @@ type Props = {
   label: string
   minWidth?: number
   onChange: SelectProps['onChange']
+  value: string
 }
 
-export function Select({ options, label, minWidth = 200, onChange }: Props) {
+export function Select({ options, label, minWidth = 200, onChange, value }: Props) {
   return (
     <FormControl sx={{ minWidth }}>
       <InputLabel>{label}</InputLabel>
-      <MuiSelect onChange={onChange} label={label}>
+      <MuiSelect value={value} onChange={onChange} label={label}>
         {options?.map((option) => (
           <MenuItem key={option.id} value={option.id.toString()}>
             {option.name}

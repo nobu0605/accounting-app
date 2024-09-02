@@ -16,10 +16,10 @@ import { Loading } from '@/components/ui/Loading'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { useAuth } from '@/contexts/AuthContext'
 import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
-import { JournalEntry } from '@/features/transaction/JournalEntry'
-import { TransferSlipTableCell } from '@/features/transaction/TransferSlipTableCell'
-import { getJournalEntriesSchema, JournalEntriesSchemaType } from '@/features/transaction/schema'
-import { Account } from '@/features/transaction/types/account'
+import { JournalEntry } from '@/features/transferSlip/components/JournalEntry'
+import { TransferSlipTableCell } from '@/features/transferSlip/components/TransferSlipTableCell'
+import { getJournalEntriesSchema, JournalEntriesSchemaType } from '@/features/transferSlip/schema'
+import { Account } from '@/features/transferSlip/types/account'
 import axios from '@/utils/client/axios'
 
 type EntryMessage = {
@@ -40,6 +40,11 @@ const defaultJournalEntry = {
   creditAmount: 0,
 }
 
+const defaultValues = {
+  dealDate: dayjs(),
+  journalEntries: [defaultJournalEntry],
+}
+
 const defaultEntryLinesCount = 1
 
 export function TransferSlipTable() {
@@ -48,7 +53,9 @@ export function TransferSlipTable() {
   const [debitTotal, setDebitTotal] = useState<number>(0)
   const [creditTotal, setCreditTotal] = useState<number>(0)
   const isMatchTotal = debitTotal === creditTotal
-  const [isMatchTotalError, setIsMatchTotalError] = useState<boolean>(true)
+  const [isMatchTotalError, setIsMatchTotalError] = useState<boolean>(false)
+  const [invalidTotalError, setInvalidTotalError] = useState<boolean>(false)
+  const invalidTotal = debitTotal === 0 || creditTotal === 0
   const [snackbarType, setSnackbarType] = useState<'error' | 'success' | null>(null)
   const user = useAuth()
   const fiscalYear = getFiscalYear()
@@ -58,7 +65,7 @@ export function TransferSlipTable() {
       if (!user) return
 
       try {
-        const res = await axios.get(`/${user.companyId}/accounts`)
+        const res = await axios.get(`/accounts/${user.companyId}`)
         setAccounts(res.data)
       } catch (error) {
         console.error('error: ', error)
@@ -74,13 +81,27 @@ export function TransferSlipTable() {
     formState: { errors },
     setValue,
     getValues,
+    reset,
   } = useForm({
-    resolver: zodResolver(getJournalEntriesSchema(isMatchTotal, setIsMatchTotalError, fiscalYear)),
-    defaultValues: {
-      dealDate: dayjs(),
-      journalEntries: [defaultJournalEntry],
-    },
+    resolver: zodResolver(
+      getJournalEntriesSchema(
+        isMatchTotal,
+        setIsMatchTotalError,
+        fiscalYear,
+        invalidTotal,
+        setInvalidTotalError,
+      ),
+    ),
+    defaultValues,
   })
+
+  function resetForm() {
+    reset(defaultValues)
+    setDebitTotal(0)
+    setCreditTotal(0)
+    setEntryLinesCount(0)
+    setEntryLinesCount(defaultEntryLinesCount)
+  }
 
   async function onSubmit(data: JournalEntriesSchemaType) {
     try {
@@ -91,6 +112,7 @@ export function TransferSlipTable() {
         journalEntries: data.journalEntries,
       })
       setSnackbarType('success')
+      resetForm()
     } catch (error) {
       console.error('error: ', error)
       setSnackbarType('error')
@@ -222,8 +244,11 @@ export function TransferSlipTable() {
           </Table>
           <Flex $direction='column' $content='flex-end' $gap={'15px'}>
             {renderErrors()}
-            {!isMatchTotalError && (
+            {isMatchTotalError && (
               <ErrorMessage>Total debit and credit amount does not match</ErrorMessage>
+            )}
+            {invalidTotalError && (
+              <ErrorMessage>Total debit and credit total amount must be grater than 0</ErrorMessage>
             )}
             <Flex $direction='row' $content='flex-end' $gap={'15px'}>
               {entryLinesCount > 1 && (

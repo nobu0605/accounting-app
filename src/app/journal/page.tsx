@@ -1,11 +1,11 @@
 'use client'
 import { styled } from 'styled-components'
-import { TransferSlipTable } from '@/features/transferSlip/components/TransferSlipTable'
+import { JournalTable } from '@/features/journal/components/JournalTable'
 
-export default function TransferSlip() {
+export default function Journal() {
   return (
     <StyledTableDiv>
-      <TransferSlipTable />
+      <JournalTable />
     </StyledTableDiv>
   )
 }

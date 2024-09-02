@@ -25,12 +25,24 @@ export function getJournalEntriesSchema(
   isMatchTotal: boolean,
   setMatchTotalError: (v: boolean) => void,
   fiscalYear: FiscalYearSchemaType | null,
+  invalidTotal: boolean,
+  setInvalidTotalError: (v: boolean) => void,
 ) {
   return journalEntriesSchema
     .superRefine((data, ctx) => {
-      setMatchTotalError(true)
+      setMatchTotalError(false)
+      setInvalidTotalError(false)
+
+      if (invalidTotal) {
+        setInvalidTotalError(true)
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Invalid total error',
+        })
+      }
+
       if (!isMatchTotal) {
-        setMatchTotalError(false)
+        setMatchTotalError(true)
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'Total mismatch error',

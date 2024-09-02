@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
-import { Account } from '@/features/transaction/types/account'
+import { Account } from '@/features/transferSlip/types/account'
 import prisma from '@/utils/api/db'
 import { serializeBigInt } from '@/utils/api/serialize'
 
