@@ -65,7 +65,5 @@ export async function GET(req: NextRequest, { params }: { params: { companyId: s
       },
       { status: 500 },
     )
-  } finally {
-    await prisma.$disconnect()
   }
 }

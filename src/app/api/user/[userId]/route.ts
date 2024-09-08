@@ -50,7 +50,5 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
       },
       { status: 500 },
     )
-  } finally {
-    await prisma.$disconnect()
   }
 }
