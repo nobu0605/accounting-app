@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
 import { registerSchemaForBackEnd } from '@/features/register/schema'
 import { hashPassword } from '@/utils/api/auth'
-import { getPrismaClient } from '@/utils/api/db'
+import prisma from '@/utils/api/db'
 
 export async function POST(req: NextRequest) {
   const request = await req.json()
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     } = validatedData
     const hashedPassword = await hashPassword(password)
 
-    const user = await getPrismaClient().user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { email },
     })
     if (user) {
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    await getPrismaClient().$transaction(async (prisma) => {
+    await prisma.$transaction(async (prisma) => {
       const company: Company = await prisma.company.create({
         data: {
           name: companyName,

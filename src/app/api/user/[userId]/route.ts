@@ -1,7 +1,7 @@
 import { User } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
-import { getPrismaClient } from '@/utils/api/db'
+import prisma from '@/utils/api/db'
 import { serializeBigInt } from '@/utils/api/serialize'
 
 export async function GET(req: NextRequest, { params }: { params: { userId: string } }) {
@@ -21,7 +21,7 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
   }
 
   try {
-    user = await getPrismaClient().user.findUnique({
+    user = await prisma.user.findUnique({
       where: { id: userId },
     })
 

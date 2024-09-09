@@ -2,7 +2,7 @@ import { User } from '@prisma/client'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
-import { getPrismaClient } from '@/utils/api/db'
+import prisma from '@/utils/api/db'
 import { verifyJwt } from '@/utils/api/jwt'
 import { serializeBigInt } from '@/utils/api/serialize'
 
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    user = await getPrismaClient().user.findUnique({
+    user = await prisma.user.findUnique({
       where: { id: userId },
     })
 
