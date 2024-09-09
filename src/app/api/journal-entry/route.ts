@@ -2,7 +2,7 @@ import { JournalEntry } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
 import { journalEntriesSchemaForBackEnd } from '@/features/transferSlip/schema'
-import prisma from '@/utils/api/db'
+import { getPrismaClient } from '@/utils/api/db'
 
 type JournalEntryLine = {
   journalEntryId: bigint
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   const validatedData = journalEntriesSchemaForBackEnd.parse(request)
 
   try {
-    const company = await prisma.company.findUnique({
+    const company = await getPrismaClient().company.findUnique({
       where: {
         id: validatedData.companyId,
       },
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    await prisma.$transaction(async (prisma) => {
+    await getPrismaClient().$transaction(async (prisma) => {
       const journalEntry: JournalEntry = await prisma.journalEntry.create({
         data: {
           companyId: validatedData.companyId,

@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
-import prisma from '@/utils/api/db'
+import { getPrismaClient } from '@/utils/api/db'
 import { serializeBigInt } from '@/utils/api/serialize'
 
 export async function GET(req: NextRequest, { params }: { params: { fiscalYearId: string } }) {
   const journalLines: any = []
 
   const fiscalYearId = parseInt(params.fiscalYearId)
-  const fiscalYear = await prisma.fiscalYear.findUnique({
+  const fiscalYear = await getPrismaClient().fiscalYear.findUnique({
     where: {
       id: fiscalYearId,
     },
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest, { params }: { params: { fiscalYearId
   }
 
   try {
-    let journalEntries = await prisma.journalEntry.findMany({
+    let journalEntries = await getPrismaClient().journalEntry.findMany({
       select: {
         id: true,
         companyId: true,

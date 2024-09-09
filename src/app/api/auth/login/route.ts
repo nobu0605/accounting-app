@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
 import { verifyPassword } from '@/utils/api/auth'
-import prisma from '@/utils/api/db'
+import { getPrismaClient } from '@/utils/api/db'
 import { tokenMaxAge, signJwt } from '@/utils/api/jwt'
 import { serializeBigInt } from '@/utils/api/serialize'
 
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   let companyId: bigint | undefined = undefined
 
   try {
-    const user = await prisma.user.findUnique({
+    const user = await getPrismaClient().user.findUnique({
       select: {
         id: true,
         password: true,
