@@ -24,18 +24,17 @@ declare global {
   }
 }
 
-let prisma: PrismaClient
 
 const databaseURL = DATABASE_URL
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient({
-    datasources: {
-      db: {
-        url: databaseURL,
-      },
-    },
-  })
-} else {
+// if (process.env.NODE_ENV === 'production') {
+//   prisma = new PrismaClient({
+//     datasources: {
+//       db: {
+//         url: databaseURL,
+//       },
+//     },
+//   })
+// } else {
   if (!global.prisma) {
     global.prisma = new PrismaClient({
       datasources: {
@@ -45,8 +44,8 @@ if (process.env.NODE_ENV === 'production') {
       },
     })
   }
-  prisma = global.prisma
-}
+  const prisma = global.prisma
+// }
 
 export default prisma
 
