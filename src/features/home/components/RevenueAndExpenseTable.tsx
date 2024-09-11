@@ -18,6 +18,7 @@ export function RevenueAndExpenseTable({ months, revenues, expenses }: Props) {
     <StyledTable>
       <TableHead>
         <StyledTableRow>
+          <StyledTableCell>Category</StyledTableCell>
           {months.map((month) => (
             <StyledTableCell key={month}>{month}</StyledTableCell>
           ))}
@@ -25,11 +26,13 @@ export function RevenueAndExpenseTable({ months, revenues, expenses }: Props) {
       </TableHead>
       <TableBody>
         <StyledTableRow>
+          <StyledTableCell>Revenue</StyledTableCell>
           {revenues.map((revenue) => (
             <StyledTableCell key={revenue}>{revenue?.toLocaleString()}</StyledTableCell>
           ))}
         </StyledTableRow>
         <StyledTableRow>
+          <StyledTableCell>Expense</StyledTableCell>
           {expenses.map((expense) => (
             <StyledTableCell key={expense}>{expense?.toLocaleString()}</StyledTableCell>
           ))}
