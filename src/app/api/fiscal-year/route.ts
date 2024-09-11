@@ -3,17 +3,19 @@ import { errorMessages } from '@/constants/error'
 import { FiscalYear } from '@/features/fiscalYear/types/fiscalYear'
 import prisma from '@/utils/api/db'
 import { serializeBigInt } from '@/utils/api/serialize'
+import { getUserByToken } from '@/utils/api/user'
 
-export async function GET(req: NextRequest, { params }: { params: { companyId: string } }) {
+export async function GET(req: NextRequest) {
   let fiscalYear: FiscalYear | null = null
+  const user = await getUserByToken()
 
-  const companyId = parseInt(params.companyId)
+  const companyId = user?.companyId
   const company = await prisma.company.findUnique({
     where: {
       id: companyId,
     },
   })
-  if (isNaN(companyId) || !company) {
+  if (!company) {
     return NextResponse.json(
       {
         error: {

@@ -31,11 +31,11 @@ export default function Login() {
   const onSubmit = async (data: LoginSchemaType) => {
     setIsLoading(true)
     try {
-      const result = await axios.post('/auth/login', {
+      await axios.post('/auth/login', {
         email: data.email,
         password: data.password,
       })
-      const res = await axios.get(`/fiscal-year/${result.data.companyId}`)
+      const res = await axios.get(`/fiscal-year`)
       localStorage.setItem(fiscalYearLocalStorageKey, JSON.stringify(res.data))
       window.location.href = '/'
     } catch (error) {

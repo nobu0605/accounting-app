@@ -65,7 +65,7 @@ export function TransferSlipTable() {
       if (!user) return
 
       try {
-        const res = await axios.get(`/accounts/${user.companyId}`)
+        const res = await axios.get(`/accounts`)
         setAccounts(res.data)
       } catch (error) {
         console.error('error: ', error)
