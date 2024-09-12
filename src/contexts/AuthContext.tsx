@@ -39,7 +39,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
     } else {
       setUser(result.data)
       if (!localStorage.getItem(fiscalYearLocalStorageKey)) {
-        const res = await axios.get(`/fiscal-year/${result.data.companyId}`)
+        const res = await axios.get(`/fiscal-year`)
         localStorage.setItem(fiscalYearLocalStorageKey, JSON.stringify(res.data))
       }
     }

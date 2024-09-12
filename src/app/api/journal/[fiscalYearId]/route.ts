@@ -1,26 +1,55 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
+import { JournalLine } from '@/features/journal/types/journal'
 import prisma from '@/utils/api/db'
 import { serializeBigInt } from '@/utils/api/serialize'
+import { getUserByToken } from '@/utils/api/user'
 
 export async function GET(req: NextRequest, { params }: { params: { fiscalYearId: string } }) {
-  const journalLines: any = []
-
+  const journalLines: JournalLine[] = []
   const fiscalYearId = parseInt(params.fiscalYearId)
-  const fiscalYear = await prisma.fiscalYear.findUnique({
-    where: {
-      id: fiscalYearId,
+  if (isNaN(fiscalYearId)) {
+    return NextResponse.json(
+      {
+        error: {
+          code: 400,
+          message: errorMessages[400],
+        },
+      },
+      { status: 400 },
+    )
+  }
+
+  let fiscalYearWithCompany = await prisma.fiscalYear.findUnique({
+    where: { id: fiscalYearId },
+    include: {
+      company: true,
     },
   })
-  if (isNaN(fiscalYearId) || !fiscalYear) {
+
+  if (!fiscalYearWithCompany || !fiscalYearWithCompany.company) {
     return NextResponse.json(
       {
         error: {
           code: 404,
-          message: 'FiscalYear not found',
+          message: 'Company or FiscalYear not found',
         },
       },
       { status: 404 },
+    )
+  }
+  fiscalYearWithCompany = serializeBigInt(fiscalYearWithCompany)
+
+  const user = await getUserByToken()
+  if (user?.companyId !== fiscalYearWithCompany?.company.id) {
+    return NextResponse.json(
+      {
+        error: {
+          code: 403,
+          message: errorMessages[403],
+        },
+      },
+      { status: 403 },
     )
   }
 

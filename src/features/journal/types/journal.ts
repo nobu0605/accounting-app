@@ -9,3 +9,15 @@ export type JournalRow = {
   creditSubAccount: number | null
   creditAmount: number
 }
+
+export type JournalLine = {
+  journalEntryId: bigint
+  dealDate: Date
+  description: string | undefined | null
+  debitAccount: string | undefined
+  debitSubAccount: string | undefined
+  debitAmount: number | undefined
+  creditAccount: string | undefined
+  creditSubAccount: string | undefined
+  creditAmount: number | undefined
+}
