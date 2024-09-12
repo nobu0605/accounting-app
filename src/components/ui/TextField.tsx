@@ -10,6 +10,7 @@ type Props = {
   variant?: 'outlined' | 'filled' | 'standard'
   type?: InputHTMLAttributes<unknown>['type']
   value?: unknown
+  defaultValue?: unknown
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   error?: boolean
   helperText?: ReactNode
@@ -24,6 +25,7 @@ export function TextField({
   variant,
   type,
   value,
+  defaultValue,
   onChange,
   error,
   helperText,
@@ -51,6 +53,7 @@ export function TextField({
         variant={variant}
         type={type}
         value={value}
+        defaultValue={defaultValue}
         onChange={onChange}
         error={error}
         helperText={helperText}
