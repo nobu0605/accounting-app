@@ -1,5 +1,6 @@
 import { Company } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
+import { defaultAccounts } from '@/constants/account'
 import { errorMessages } from '@/constants/error'
 import { registerSchemaForBackEnd } from '@/features/register/schema'
 import { hashPassword } from '@/utils/api/auth'
@@ -62,6 +63,18 @@ export async function POST(req: NextRequest) {
           startDate: fiscalStartDate,
           endDate: fiscalEndDate,
         },
+      })
+
+      await prisma.account.createMany({
+        data: defaultAccounts.map((account) => {
+          return {
+            companyId: Number(company.id),
+            name: account.name,
+            code: account.code,
+            type: account.type,
+            isDefaultAccount: account.isDefaultAccount,
+          }
+        }),
       })
     })
   } catch (error) {
