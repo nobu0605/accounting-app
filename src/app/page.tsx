@@ -15,14 +15,19 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchRevenueAndExpense() {
-      const res = await axios.get(
-        `/home?startDate=${fiscalYear?.startDate}&endDate=${fiscalYear?.endDate}`,
-      )
+      try {
+        const res = await axios.get(
+          `/home?startDate=${fiscalYear?.startDate}&endDate=${fiscalYear?.endDate}`,
+        )
 
-      setMonths(res.data.months)
-      setRevenues(res.data.revenues)
-      setExpenses(res.data.expenses)
+        setMonths(res.data.months)
+        setRevenues(res.data.revenues)
+        setExpenses(res.data.expenses)
+      } catch (error) {
+        console.error('error: ', error)
+      }
     }
+
     fetchRevenueAndExpense()
   }, [])
 
