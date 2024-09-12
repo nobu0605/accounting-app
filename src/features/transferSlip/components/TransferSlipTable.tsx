@@ -231,12 +231,12 @@ export function TransferSlipTable() {
                 <TransferSlipTableCell> </TransferSlipTableCell>
                 <TransferSlipTableCell> </TransferSlipTableCell>
                 <TransferSlipTableCell>
-                  <b>total {debitTotal}</b>
+                  <b>total {debitTotal.toLocaleString()}</b>
                 </TransferSlipTableCell>
                 <TransferSlipTableCell> </TransferSlipTableCell>
                 <TransferSlipTableCell> </TransferSlipTableCell>
                 <TransferSlipTableCell>
-                  <b>total {creditTotal}</b>
+                  <b>total {creditTotal.toLocaleString()}</b>
                 </TransferSlipTableCell>
                 <TransferSlipTableCell> </TransferSlipTableCell>
               </StyledTableRow>
