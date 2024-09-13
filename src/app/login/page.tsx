@@ -1,6 +1,5 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/Button'
@@ -14,7 +13,7 @@ import axios from '@/utils/client/axios'
 export default function Login() {
   const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+
   const {
     watch,
     handleSubmit,

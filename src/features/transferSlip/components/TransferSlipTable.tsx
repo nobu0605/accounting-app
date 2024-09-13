@@ -5,14 +5,13 @@ import TableBody from '@mui/material/TableBody'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import dayjs from 'dayjs'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 import { ErrorMessage } from '@/components/common/ErrorMessage'
 import { Button } from '@/components/ui/Button'
 import { DatePicker } from '@/components/ui/DatePicker'
 import { Flex } from '@/components/ui/Flex'
-import { Loading } from '@/components/ui/Loading'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { useAuth } from '@/contexts/AuthContext'
 import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
@@ -47,9 +46,12 @@ const defaultValues = {
 
 const defaultEntryLinesCount = 1
 
-export function TransferSlipTable() {
+type Props = {
+  accounts: Account[]
+}
+
+export function TransferSlipTable({ accounts }: Props) {
   const [entryLinesCount, setEntryLinesCount] = useState(defaultEntryLinesCount)
-  const [accounts, setAccounts] = useState<Account[]>([])
   const [debitTotal, setDebitTotal] = useState<number>(0)
   const [creditTotal, setCreditTotal] = useState<number>(0)
   const isMatchTotal = debitTotal === creditTotal
@@ -60,21 +62,6 @@ export function TransferSlipTable() {
   const user = useAuth()
   const fiscalYear = getFiscalYear()
   const [isSubmitting, setIsSubmitting] = useState(false)
-
-  useEffect(() => {
-    async function getAccounts() {
-      if (!user) return
-
-      try {
-        const res = await axios.get(`/accounts`)
-        setAccounts(res.data)
-      } catch (error) {
-        console.error('error: ', error)
-      }
-    }
-
-    getAccounts()
-  }, [user])
 
   const {
     watch,
@@ -169,14 +156,6 @@ export function TransferSlipTable() {
         )}
       </div>
     ))
-  }
-
-  if (accounts.length === 0) {
-    return (
-      <Flex $content='center'>
-        <Loading />
-      </Flex>
-    )
   }
 
   return (

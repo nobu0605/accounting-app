@@ -1,11 +1,7 @@
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import React from 'react'
-
-type GraphValue = {
-  name: string
-  y: number
-}
+import { GraphValue } from '@/features/report/types/report'
 
 type Props = {
   graphValues: GraphValue[]
