@@ -13,6 +13,10 @@ export const expenseAccountTypes: AccountType[] = [
   AccountType.specialExpenses,
 ]
 
+export const assetTypes = [AccountType.currentAssets, AccountType.nonCurrentAssets]
+
+export const liabilityTypes = [AccountType.currentLiabilities, AccountType.nonCurrentLiabilities]
+
 export const defaultAccounts = [
   {
     name: 'Sales',

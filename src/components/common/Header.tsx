@@ -50,6 +50,9 @@ export function Header({ isPrivateRoute }: Props) {
               <Link href={'/journal'}>
                 <StyledMenuList>Journal</StyledMenuList>
               </Link>
+              <Link href={'/report'}>
+                <StyledMenuList>Report</StyledMenuList>
+              </Link>
             </StyledMenuLists>
           </StyledMenuDiv>
         </>
