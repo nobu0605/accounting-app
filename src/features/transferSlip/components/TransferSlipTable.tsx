@@ -59,6 +59,7 @@ export function TransferSlipTable() {
   const [snackbarType, setSnackbarType] = useState<'error' | 'success' | null>(null)
   const user = useAuth()
   const fiscalYear = getFiscalYear()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     async function getAccounts() {
@@ -104,6 +105,7 @@ export function TransferSlipTable() {
   }
 
   async function onSubmit(data: JournalEntriesSchemaType) {
+    setIsSubmitting(true)
     try {
       await axios.post('/journal-entry', {
         companyId: user?.companyId,
@@ -117,6 +119,7 @@ export function TransferSlipTable() {
       console.error('error: ', error)
       setSnackbarType('error')
     }
+    setIsSubmitting(false)
   }
 
   function addRow() {
@@ -261,7 +264,9 @@ export function TransferSlipTable() {
               </Button>
             </Flex>
             <Flex $content='flex-end'>
-              <Button type='submit'>Register</Button>
+              <Button disabled={isSubmitting} type='submit'>
+                Register
+              </Button>
             </Flex>
           </Flex>
         </Flex>

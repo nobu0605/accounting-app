@@ -63,8 +63,8 @@ export function JournalEntry({
       </TransferSlipTableCell>
       <TransferSlipTableCell>
         <TextField
-          type='number'
-          value={watch(`journalEntries.${lineNumber}.debitAmount`) || null}
+          type='text'
+          value={watch(`journalEntries.${lineNumber}.debitAmount`)}
           onChange={(e) => {
             setValue(`journalEntries.${lineNumber}.debitAmount`, Number(e.target.value))
             calculateTotal()
@@ -105,8 +105,8 @@ export function JournalEntry({
       </TransferSlipTableCell>
       <TransferSlipTableCell>
         <TextField
-          type='number'
-          value={watch(`journalEntries.${lineNumber}.creditAmount`) || null}
+          type='text'
+          value={watch(`journalEntries.${lineNumber}.creditAmount`)}
           onChange={(e) => {
             setValue(`journalEntries.${lineNumber}.creditAmount`, Number(e.target.value))
             calculateTotal()
