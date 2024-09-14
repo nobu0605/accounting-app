@@ -53,6 +53,9 @@ export function Header({ isPrivateRoute }: Props) {
               <Link href={'/report'}>
                 <StyledMenuList>Report</StyledMenuList>
               </Link>
+              <Link href={'/setting'}>
+                <StyledMenuList>Setting</StyledMenuList>
+              </Link>
             </StyledMenuLists>
           </StyledMenuDiv>
         </>
