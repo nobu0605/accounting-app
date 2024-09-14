@@ -3,7 +3,13 @@ export type GraphValue = {
   y: number
 }
 
-export type ReportType = {
+export type Ratio = {
   name: string
-  rate: number
+  ratio: number
+}
+
+export type ReportType = {
+  equityRatio: Ratio[]
+  assets: Ratio[]
+  operatingProfitMargin: Ratio[]
 }

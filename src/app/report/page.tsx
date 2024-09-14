@@ -9,7 +9,7 @@ import { useReport } from '@/features/report/hooks/useReport'
 
 export default function Report() {
   const fiscalYear = getFiscalYear()
-  const { report, isLoading } = useReport(fiscalYear?.startDate, fiscalYear?.endDate)
+  const { reports, isLoading } = useReport(fiscalYear?.startDate, fiscalYear?.endDate)
 
   if (isLoading) {
     return (
@@ -19,7 +19,7 @@ export default function Report() {
     )
   }
 
-  if (!report) {
+  if (!reports) {
     return (
       <Flex $content='center'>
         <span>no data</span>
@@ -28,12 +28,28 @@ export default function Report() {
   }
 
   return (
-    <StyledTableDiv>
-      <ReportGraph graphValues={report} />
-    </StyledTableDiv>
+    <>
+      <StyledGraphTitleSpan>Financial Report</StyledGraphTitleSpan>
+      <StyledTableFlex $direction='row' $content='center'>
+        {Object.entries(reports).map(([key, report]) => (
+          <StyledGraphDiv key={key}>
+            <ReportGraph graphValues={report} />
+          </StyledGraphDiv>
+        ))}
+      </StyledTableFlex>
+    </>
   )
 }
 
-const StyledTableDiv = styled('div')`
+const StyledTableFlex = styled(Flex)`
   padding: 20px;
+`
+
+const StyledGraphDiv = styled('div')`
+  width: 30%;
+`
+
+const StyledGraphTitleSpan = styled('span')`
+  font-size: 20px;
+  font-weight: bold;
 `
