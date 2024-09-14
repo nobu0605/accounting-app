@@ -16,8 +16,7 @@ export function ReportGraph({ graphValues }: Props) {
       type: 'pie',
     },
     title: {
-      text: 'Financial report',
-      align: 'left',
+      text: '',
     },
     credits: {
       enabled: false,
@@ -34,7 +33,7 @@ export function ReportGraph({ graphValues }: Props) {
       pie: {
         allowPointSelect: true,
         cursor: 'pointer',
-        colors: ['#7cb5ec', '#e42851'],
+        colors: ['#F08080', 'rgb(44, 175, 254)', '#FF4500'],
         borderRadius: 5,
         dataLabels: {
           enabled: true,
