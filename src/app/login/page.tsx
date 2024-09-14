@@ -1,7 +1,9 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { styled } from 'styled-components'
 import { Button } from '@/components/ui/Button'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { TextField } from '@/components/ui/TextField'
@@ -13,6 +15,7 @@ import axios from '@/utils/client/axios'
 export default function Login() {
   const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [showDemoAccount, setShowDemoAccount] = useState(false)
 
   const {
     watch,
@@ -87,8 +90,35 @@ export default function Login() {
           <Button disabled={isLoading} type='submit'>
             Login
           </Button>
+          <Link href={'/register'}>
+            <StyledRegisterSpan>Register</StyledRegisterSpan>
+          </Link>
+          <StyledDemoSpan onClick={() => setShowDemoAccount(!showDemoAccount)}>
+            Demo account
+            <StyledTriangleSpan>▼</StyledTriangleSpan>
+          </StyledDemoSpan>
+          {showDemoAccount && (
+            <>
+              <span>email: demo@gmail.com</span>
+              <span>password: Password123</span>
+            </>
+          )}
         </AuthFormLayout>
       </form>
     </>
   )
 }
+
+const StyledRegisterSpan = styled('div')`
+  text-align: center;
+  color: #0000ee;
+`
+
+const StyledDemoSpan = styled('span')`
+  cursor: pointer;
+`
+
+const StyledTriangleSpan = styled('span')`
+  font-size: 10px;
+  margin-left: 3px;
+`
