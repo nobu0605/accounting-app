@@ -23,9 +23,5 @@ export default function Setting() {
     )
   }
 
-  return (
-    <>
-      <AccountsTable accounts={accounts} />
-    </>
-  )
+  return <AccountsTable accounts={accounts} />
 }
