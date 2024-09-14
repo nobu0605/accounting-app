@@ -2,11 +2,15 @@
 import { styled } from '@mui/material'
 import dayjs from 'dayjs'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { ServiceName } from '@/components/common/ServiceName'
 import { Flex } from '@/components/ui/Flex'
+import { Menu } from '@/components/ui/Menu'
 import { mainColor } from '@/constants/colors'
 import { useAuth } from '@/contexts/AuthContext'
 import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
+import axios from '@/utils/client/axios'
 
 type Props = {
   isPrivateRoute: boolean
@@ -15,6 +19,25 @@ type Props = {
 export function Header({ isPrivateRoute }: Props) {
   const user = useAuth()
   const fiscalYear = getFiscalYear()
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const router = useRouter()
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  async function logout() {
+    await axios.delete('/auth/logout')
+    localStorage.removeItem('fiscalYear')
+    router.push('/login')
+  }
+
+  const menuItems = [
+    {
+      onClick: () => logout(),
+      name: 'Logout',
+    },
+  ]
 
   return (
     <StyledHeaderFlex $direction='column'>
@@ -33,8 +56,11 @@ export function Header({ isPrivateRoute }: Props) {
                   </span>
                   <Flex $direction='row' $gap={'8px'}>
                     <StyledUserInfoSpan>Email :{user?.email}</StyledUserInfoSpan>
-                    <span>User name :{user?.name}</span>
+                    <StyledUserNameSpan onClick={(e) => handleOpenNavMenu(e)}>
+                      <StyledtriangleSpan>▾</StyledtriangleSpan>User name :{user?.name}
+                    </StyledUserNameSpan>
                   </Flex>
+                  <Menu anchorEl={anchorEl} setAnchorEl={setAnchorEl} menuItems={menuItems} />
                 </>
               )}
             </StyledHeaderRightFlex>
@@ -102,4 +128,13 @@ const StyledHeaderRightFlex = styled(Flex)`
 const StyledUserInfoSpan = styled('span')`
   border-right: 1px solid gray;
   padding-right: 8px;
+`
+
+const StyledUserNameSpan = styled('span')`
+  cursor: pointer;
+`
+
+const StyledtriangleSpan = styled('span')`
+  font-size: 12px;
+  margin-right: 3px;
 `
