@@ -3,6 +3,7 @@ import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import dayjs from 'dayjs'
 import { styled } from 'styled-components'
 import { Button } from '@/components/ui/Button'
 import { Flex } from '@/components/ui/Flex'
@@ -21,23 +22,23 @@ export function JournalTable({ journals }: Props) {
       'Journal id',
       'Deal date',
       'Debit account',
-      'Sub account',
+      'Debit sub account',
       'Debit amount',
       'Credit account',
-      'Sub account',
+      'Credit sub account',
       'Credit amount',
       'Description',
     ],
     ...journals.map((item) => [
-      item.creditAccount,
-      item.creditAmount,
-      item.creditSubAccount,
-      item.dealDate,
-      item.debitAccount,
-      item.debitAmount,
-      item.debitSubAccount,
-      item.description,
       item.journalEntryId,
+      dayjs(item.dealDate).format('YYYY/MM/DD'),
+      item.debitAccount,
+      item.debitSubAccount,
+      item.debitAmount,
+      item.creditAccount,
+      item.creditSubAccount,
+      item.creditAmount,
+      item.description,
     ]),
   ]
     .map((e) => e.join(','))
@@ -56,10 +57,10 @@ export function JournalTable({ journals }: Props) {
             <TransferSlipTableCell>Journal id</TransferSlipTableCell>
             <TransferSlipTableCell>Deal date</TransferSlipTableCell>
             <TransferSlipTableCell>Debit account</TransferSlipTableCell>
-            <TransferSlipTableCell>Sub account</TransferSlipTableCell>
+            <TransferSlipTableCell>Debit sub account</TransferSlipTableCell>
             <TransferSlipTableCell>Debit amount</TransferSlipTableCell>
             <TransferSlipTableCell>Credit account</TransferSlipTableCell>
-            <TransferSlipTableCell>Sub account</TransferSlipTableCell>
+            <TransferSlipTableCell>Credit sub account</TransferSlipTableCell>
             <TransferSlipTableCell>Credit amount</TransferSlipTableCell>
             <TransferSlipTableCell>Description</TransferSlipTableCell>
           </StyledTableRow>
