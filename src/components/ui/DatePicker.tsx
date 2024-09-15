@@ -12,15 +12,24 @@ type Props = {
   onError?: (error: any, value: any) => void
   isError: boolean
   label: React.ReactNode
+  required?: boolean
 }
 
-export function DatePicker({ value, onChange, errorMessage, onError, isError, label }: Props) {
+export function DatePicker({
+  value,
+  onChange,
+  errorMessage,
+  onError,
+  isError,
+  label,
+  required = false,
+}: Props) {
   return (
     <MuiDatePicker
       label={
         <>
           {label}
-          <StyledRequiredAsterisk> *</StyledRequiredAsterisk>
+          {required && <StyledRequiredAsterisk> *</StyledRequiredAsterisk>}
         </>
       }
       value={value}

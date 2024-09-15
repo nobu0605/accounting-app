@@ -58,6 +58,16 @@ export default function Register() {
   const onSubmit = async (data: RegisterSchemaType) => {
     setIsLoading(true)
     try {
+      setIsError(true)
+      setTimeout(() => {
+        setIsError(false)
+      }, 6000)
+      setErrorMessage(`Currently, registration is suspended.
+Please use the demo account from the login screen instead.`)
+      setIsLoading(false)
+      return
+
+      // registration is suspended
       await axios.post('/auth/register', data)
       router.push('/login')
     } catch (error) {
@@ -87,7 +97,7 @@ export default function Register() {
           variant='filled'
         />
       )}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <AuthFormLayout>
           <h1>Create an account</h1>
           <TextField
@@ -169,6 +179,7 @@ export default function Register() {
             }}
             errorMessage={errors.fiscalStartDate?.message}
             isError={!!errors?.fiscalStartDate}
+            required
           />
           <DatePicker
             label={'Fiscal End Date'}
@@ -181,6 +192,7 @@ export default function Register() {
             }}
             errorMessage={errors.fiscalEndDate?.message}
             isError={!!errors?.fiscalEndDate}
+            required
           />
           <DatePicker
             label={'Founded Date'}
@@ -193,6 +205,7 @@ export default function Register() {
             }}
             errorMessage={errors.foundedDate?.message}
             isError={!!errors?.foundedDate}
+            required
           />
           <Button disabled={isLoading} type='submit'>
             Register

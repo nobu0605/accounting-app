@@ -2,6 +2,7 @@
 import { TextField as MuiTextField } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { InputHTMLAttributes, ReactNode } from 'react'
+import { styled } from 'styled-components'
 
 type Props = {
   id?: string
@@ -49,7 +50,12 @@ export function TextField({
       <MuiTextField
         id={id}
         name={name}
-        label={label}
+        label={
+          <>
+            {label}
+            {required && <StyledRequiredAsterisk> *</StyledRequiredAsterisk>}
+          </>
+        }
         variant={variant}
         type={type}
         value={value}
@@ -57,9 +63,13 @@ export function TextField({
         onChange={onChange}
         error={error}
         helperText={helperText}
-        required={required}
         placeholder={placeholder}
       />
     </ThemeProvider>
   )
 }
+
+const StyledRequiredAsterisk = styled('span')`
+  color: #d32f2f;
+  font-size: 20px;
+`
