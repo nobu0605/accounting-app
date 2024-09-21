@@ -5,6 +5,7 @@ import TableBody from '@mui/material/TableBody'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
@@ -62,6 +63,7 @@ export function TransferSlipTable({ accounts }: Props) {
   const user = useAuth()
   const fiscalYear = getFiscalYear()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const {
     watch,
@@ -102,6 +104,7 @@ export function TransferSlipTable({ accounts }: Props) {
       })
       setSnackbarType('success')
       resetForm()
+      router.refresh()
     } catch (error) {
       console.error('error: ', error)
       setSnackbarType('error')

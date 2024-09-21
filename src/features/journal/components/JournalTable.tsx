@@ -63,6 +63,7 @@ export function JournalTable({ journals }: Props) {
             <TransferSlipTableCell>Credit sub account</TransferSlipTableCell>
             <TransferSlipTableCell>Credit amount</TransferSlipTableCell>
             <TransferSlipTableCell>Description</TransferSlipTableCell>
+            <TransferSlipTableCell>Delete</TransferSlipTableCell>
           </StyledTableRow>
         </TableHead>
         <TableBody>

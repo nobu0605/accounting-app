@@ -146,7 +146,7 @@ model JournalEntryLine {
   description   String?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
-  journalEntry  JournalEntry @relation(fields: [journalEntryId], references: [id])
+  journalEntry  JournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
   account       Account    @relation(fields: [accountId], references: [id])
   subAccount    SubAccount? @relation(fields: [subAccountId], references: [id])
 }
