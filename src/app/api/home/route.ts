@@ -1,9 +1,11 @@
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import { NextRequest, NextResponse } from 'next/server'
 import { expenseAccountTypes, revenueAccountTypes } from '@/constants/account'
 import { errorMessages } from '@/constants/error'
 import prisma from '@/utils/api/db'
 import { getUserByToken } from '@/utils/api/user'
+dayjs.extend(utc)
 
 type Amount = {
   month: string
@@ -80,7 +82,9 @@ function generateMonthArray(startDate: string, endDate: string): string[] {
 
 function generateMonthTotalArray(months: string[], totalArray: Amount[]) {
   const monthTotalArray: Array<number | null> = months.map((month) => {
-    const found = totalArray.find((total) => dayjs(month).isSame(total.month, 'month'))
+    const found = totalArray.find((total) => {
+      return dayjs(month).utc().isSame(total.month, 'month')
+    })
     return found?.total || null
   })
 

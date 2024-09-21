@@ -27,14 +27,14 @@ export function RevenueAndExpenseTable({ months, revenues, expenses }: Props) {
       <TableBody>
         <StyledTableRow>
           <StyledTableCell>Revenue</StyledTableCell>
-          {revenues.map((revenue) => (
-            <StyledTableCell key={revenue}>{revenue?.toLocaleString()}</StyledTableCell>
+          {revenues.map((revenue, i) => (
+            <StyledTableCell key={i}>{revenue?.toLocaleString()}</StyledTableCell>
           ))}
         </StyledTableRow>
         <StyledTableRow>
           <StyledTableCell>Expense</StyledTableCell>
-          {expenses.map((expense) => (
-            <StyledTableCell key={expense}>{expense?.toLocaleString()}</StyledTableCell>
+          {expenses.map((expense, i) => (
+            <StyledTableCell key={i}>{expense?.toLocaleString()}</StyledTableCell>
           ))}
         </StyledTableRow>
       </TableBody>
