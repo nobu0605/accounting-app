@@ -30,7 +30,7 @@ export default function Login() {
     },
   })
 
-  function useDemo() {
+  function setDemoAccount() {
     setValue('email', 'demo@gmail.com')
     setValue('password', 'Password123')
   }
@@ -104,8 +104,8 @@ export default function Login() {
           </StyledDemoSpan>
           {showDemoAccount && (
             <StyledDemoDiv>
-              <Button onClick={() => useDemo()} color='inherit' size='small'>
-                Use demo account
+              <Button onClick={() => setDemoAccount()} color='inherit' size='small'>
+                Set demo account
               </Button>
             </StyledDemoDiv>
           )}
