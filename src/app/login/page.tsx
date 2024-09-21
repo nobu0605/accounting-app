@@ -30,6 +30,11 @@ export default function Login() {
     },
   })
 
+  function useDemo() {
+    setValue('email', 'demo@gmail.com')
+    setValue('password', 'Password123')
+  }
+
   const onSubmit = async (data: LoginSchemaType) => {
     setIsLoading(true)
     try {
@@ -98,10 +103,11 @@ export default function Login() {
             <StyledTriangleSpan>▼</StyledTriangleSpan>
           </StyledDemoSpan>
           {showDemoAccount && (
-            <>
-              <span>email: demo@gmail.com</span>
-              <span>password: Password123</span>
-            </>
+            <StyledDemoDiv>
+              <Button onClick={() => useDemo()} color='inherit' size='small'>
+                Use demo account
+              </Button>
+            </StyledDemoDiv>
           )}
         </AuthFormLayout>
       </form>
@@ -121,4 +127,8 @@ const StyledDemoSpan = styled('span')`
 const StyledTriangleSpan = styled('span')`
   font-size: 10px;
   margin-left: 3px;
+`
+
+const StyledDemoDiv = styled('div')`
+  width: 300px;
 `
