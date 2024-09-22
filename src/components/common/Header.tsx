@@ -8,6 +8,7 @@ import { ServiceName } from '@/components/common/ServiceName'
 import { Flex } from '@/components/ui/Flex'
 import { Menu } from '@/components/ui/Menu'
 import { mainColor } from '@/constants/colors'
+import { mobileWidth } from '@/constants/screen'
 import { useAuth } from '@/contexts/AuthContext'
 import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import axios from '@/utils/client/axios'
@@ -115,6 +116,10 @@ const StyledMenuLists = styled('ul')`
   display: flex;
   flex-direction: row;
   gap: 20px;
+
+  @media (max-width: ${mobileWidth}px) {
+    padding-left: 15px;
+  }
 `
 
 const StyledMenuList = styled('li')`
@@ -123,6 +128,10 @@ const StyledMenuList = styled('li')`
 
 const StyledHeaderRightFlex = styled(Flex)`
   padding-right: 10px;
+
+  @media (max-width: ${mobileWidth}px) {
+    font-size: 12px;
+  }
 `
 
 const StyledUserInfoSpan = styled('span')`

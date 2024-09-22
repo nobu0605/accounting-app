@@ -1,6 +1,7 @@
 'use client'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import { styled } from 'styled-components'
 import { Header } from '@/components/common/Header'
 import { publicRoutes } from '@/features/auth/constant'
 
@@ -15,7 +16,12 @@ export function Layout({ children }: Props) {
   return (
     <>
       <Header isPrivateRoute={isPrivateRoute} />
-      <div style={{ margin: '10px' }}>{children}</div>
+      <StyledBodyDiv>{children}</StyledBodyDiv>
     </>
   )
 }
+
+const StyledBodyDiv = styled('div')`
+  overflow-x: auto;
+  margin: 10px;
+`
