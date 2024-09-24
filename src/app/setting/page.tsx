@@ -1,27 +1,28 @@
 'use client'
 import React from 'react'
-import { Flex } from '@/components/ui/Flex'
-import { Loading } from '@/components/ui/Loading'
-import { useAccount } from '@/features/account/hooks/useAccount'
-import { AccountsTable } from '@/features/setting/components/AccountsTable'
+import { styled } from 'styled-components'
+import { SettingMenu } from '@/features/setting/components/SettingMenu'
 
 export default function Setting() {
-  const { accounts, isLoading } = useAccount()
-
-  if (isLoading)
-    return (
-      <Flex $content='center'>
-        <Loading />
-      </Flex>
-    )
-
-  if (!accounts) {
-    return (
-      <Flex $content='center'>
-        <span>no data</span>
-      </Flex>
-    )
-  }
-
-  return <AccountsTable accounts={accounts} />
+  return (
+    <StyledWrapperDiv>
+      <StyledTitleDiv>
+        <StyledTitleSpan>All Settings</StyledTitleSpan>
+      </StyledTitleDiv>
+      <SettingMenu />
+    </StyledWrapperDiv>
+  )
 }
+
+const StyledWrapperDiv = styled('div')`
+  margin-left: 40px;
+  margin-right: 40px;
+`
+
+const StyledTitleSpan = styled('span')`
+  font-size: 25px;
+`
+
+const StyledTitleDiv = styled('div')`
+  margin-bottom: 20px;
+`
