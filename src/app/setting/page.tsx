@@ -7,7 +7,7 @@ export default function Setting() {
   return (
     <StyledWrapperDiv>
       <StyledTitleDiv>
-        <StyledTitleSpan>All Settings</StyledTitleSpan>
+        <h1>All Settings</h1>
       </StyledTitleDiv>
       <SettingMenu />
     </StyledWrapperDiv>
@@ -17,10 +17,6 @@ export default function Setting() {
 const StyledWrapperDiv = styled('div')`
   margin-left: 40px;
   margin-right: 40px;
-`
-
-const StyledTitleSpan = styled('span')`
-  font-size: 25px;
 `
 
 const StyledTitleDiv = styled('div')`

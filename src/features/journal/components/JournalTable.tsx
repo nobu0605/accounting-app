@@ -10,7 +10,7 @@ import { Flex } from '@/components/ui/Flex'
 import { Journal } from '@/features/journal/components/Journal'
 import { JournalRow } from '@/features/journal/types/journal'
 import { handleDownload } from '@/features/journal/utils/csv'
-import { TransferSlipTableCell } from '@/features/transferSlip/components/TransferSlipTableCell'
+import { JournalEntryTableCell } from '@/features/journalEntry/components/JournalEntryTableCell'
 
 type Props = {
   journals: JournalRow[]
@@ -54,16 +54,16 @@ export function JournalTable({ journals }: Props) {
       <Table>
         <TableHead>
           <StyledTableRow>
-            <TransferSlipTableCell>Journal id</TransferSlipTableCell>
-            <TransferSlipTableCell>Deal date</TransferSlipTableCell>
-            <TransferSlipTableCell>Debit account</TransferSlipTableCell>
-            <TransferSlipTableCell>Debit sub account</TransferSlipTableCell>
-            <TransferSlipTableCell>Debit amount</TransferSlipTableCell>
-            <TransferSlipTableCell>Credit account</TransferSlipTableCell>
-            <TransferSlipTableCell>Credit sub account</TransferSlipTableCell>
-            <TransferSlipTableCell>Credit amount</TransferSlipTableCell>
-            <TransferSlipTableCell>Description</TransferSlipTableCell>
-            <TransferSlipTableCell>Delete</TransferSlipTableCell>
+            <JournalEntryTableCell>Journal id</JournalEntryTableCell>
+            <JournalEntryTableCell>Deal date</JournalEntryTableCell>
+            <JournalEntryTableCell>Debit account</JournalEntryTableCell>
+            <JournalEntryTableCell>Debit sub account</JournalEntryTableCell>
+            <JournalEntryTableCell>Debit amount</JournalEntryTableCell>
+            <JournalEntryTableCell>Credit account</JournalEntryTableCell>
+            <JournalEntryTableCell>Credit sub account</JournalEntryTableCell>
+            <JournalEntryTableCell>Credit amount</JournalEntryTableCell>
+            <JournalEntryTableCell>Description</JournalEntryTableCell>
+            <JournalEntryTableCell>Delete</JournalEntryTableCell>
           </StyledTableRow>
         </TableHead>
         <TableBody>

@@ -33,7 +33,7 @@ export default function Report() {
 
   return (
     <>
-      <StyledGraphTitleSpan>Financial Report</StyledGraphTitleSpan>
+      <h1>Financial Report</h1>
       <StyledTableFlex $direction={isMobile ? 'column' : 'row'} $content='center'>
         {Object.entries(reports).map(([key, report]) => (
           <StyledGraphDiv key={key} isMobile={isMobile}>
@@ -51,9 +51,4 @@ const StyledTableFlex = styled(Flex)`
 
 const StyledGraphDiv = styled('div')<{ isMobile: boolean }>`
   width: ${({ isMobile }) => (isMobile ? '100%' : '30%')};
-`
-
-const StyledGraphTitleSpan = styled('span')`
-  font-size: 20px;
-  font-weight: bold;
 `

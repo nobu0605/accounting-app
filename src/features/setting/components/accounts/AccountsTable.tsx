@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import React from 'react'
 import { styled } from 'styled-components'
-import { Account } from '@/features/transferSlip/types/account'
+import { Account } from '@/features/journalEntry/types/account'
 
 type Props = {
   accounts: Account[]

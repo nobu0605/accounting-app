@@ -7,7 +7,7 @@ type Props = {
   backgroundColor?: string
 }
 
-export function TransferSlipTableCell({ children, backgroundColor }: Props) {
+export function JournalEntryTableCell({ children, backgroundColor }: Props) {
   return <StyledTableCell backgroundColor={backgroundColor}>{children}</StyledTableCell>
 }
 

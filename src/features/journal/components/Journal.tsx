@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import { JournalRow } from '@/features/journal/types/journal'
-import { TransferSlipTableCell } from '@/features/transferSlip/components/TransferSlipTableCell'
+import { JournalEntryTableCell } from '@/features/journalEntry/components/JournalEntryTableCell'
 import axios from '@/utils/client/axios'
 
 type Props = {
@@ -49,22 +49,22 @@ export function Journal({ journal }: Props) {
         />
       )}
       <TableRow>
-        <TransferSlipTableCell>{journal.journalEntryId}</TransferSlipTableCell>
-        <TransferSlipTableCell>
+        <JournalEntryTableCell>{journal.journalEntryId}</JournalEntryTableCell>
+        <JournalEntryTableCell>
           {dayjs(journal.dealDate).format('YYYY/MM/DD')}
-        </TransferSlipTableCell>
-        <TransferSlipTableCell>{journal.debitAccount}</TransferSlipTableCell>
-        <TransferSlipTableCell>{journal.debitSubAccount}</TransferSlipTableCell>
-        <TransferSlipTableCell>{journal.debitAmount.toLocaleString()}</TransferSlipTableCell>
-        <TransferSlipTableCell>{journal.creditAccount}</TransferSlipTableCell>
-        <TransferSlipTableCell>{journal.creditSubAccount}</TransferSlipTableCell>
-        <TransferSlipTableCell>{journal.creditAmount.toLocaleString()}</TransferSlipTableCell>
-        <TransferSlipTableCell>{journal.description}</TransferSlipTableCell>
-        <TransferSlipTableCell>
+        </JournalEntryTableCell>
+        <JournalEntryTableCell>{journal.debitAccount}</JournalEntryTableCell>
+        <JournalEntryTableCell>{journal.debitSubAccount}</JournalEntryTableCell>
+        <JournalEntryTableCell>{journal.debitAmount.toLocaleString()}</JournalEntryTableCell>
+        <JournalEntryTableCell>{journal.creditAccount}</JournalEntryTableCell>
+        <JournalEntryTableCell>{journal.creditSubAccount}</JournalEntryTableCell>
+        <JournalEntryTableCell>{journal.creditAmount.toLocaleString()}</JournalEntryTableCell>
+        <JournalEntryTableCell>{journal.description}</JournalEntryTableCell>
+        <JournalEntryTableCell>
           <Button onClick={() => handleDelete()} color='inherit'>
             Delete
           </Button>
-        </TransferSlipTableCell>
+        </JournalEntryTableCell>
       </TableRow>
     </>
   )

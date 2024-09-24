@@ -3,9 +3,9 @@ import { styled } from 'styled-components'
 import { Flex } from '@/components/ui/Flex'
 import { Loading } from '@/components/ui/Loading'
 import { useAccount } from '@/features/account/hooks/useAccount'
-import { TransferSlipTable } from '@/features/transferSlip/components/TransferSlipTable'
+import { JournalEntryTable } from '@/features/journalEntry/components/JournalEntryTable'
 
-export default function TransferSlip() {
+export default function JournalEntry() {
   const { accounts, isLoading } = useAccount()
 
   if (isLoading)
@@ -25,7 +25,7 @@ export default function TransferSlip() {
 
   return (
     <StyledTableDiv>
-      <TransferSlipTable accounts={accounts} />
+      <JournalEntryTable accounts={accounts} />
     </StyledTableDiv>
   )
 }
