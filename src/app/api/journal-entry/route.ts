@@ -1,7 +1,7 @@
 import { JournalEntry } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
-import { journalEntriesSchemaForBackEnd } from '@/features/transferSlip/schema'
+import { journalEntriesSchemaForBackEnd } from '@/features/journalEntry/schema'
 import prisma from '@/utils/api/db'
 
 type JournalEntryLine = {

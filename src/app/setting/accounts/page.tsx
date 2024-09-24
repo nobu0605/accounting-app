@@ -1,11 +1,11 @@
 'use client'
-import { styled } from 'styled-components'
+import React from 'react'
 import { Flex } from '@/components/ui/Flex'
 import { Loading } from '@/components/ui/Loading'
 import { useAccount } from '@/features/account/hooks/useAccount'
-import { TransferSlipTable } from '@/features/transferSlip/components/TransferSlipTable'
+import { AccountsTable } from '@/features/setting/components/accounts/AccountsTable'
 
-export default function TransferSlip() {
+export default function Setting() {
   const { accounts, isLoading } = useAccount()
 
   if (isLoading)
@@ -23,13 +23,5 @@ export default function TransferSlip() {
     )
   }
 
-  return (
-    <StyledTableDiv>
-      <TransferSlipTable accounts={accounts} />
-    </StyledTableDiv>
-  )
+  return <AccountsTable accounts={accounts} />
 }
-
-const StyledTableDiv = styled('div')`
-  padding: 20px;
-`

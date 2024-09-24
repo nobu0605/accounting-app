@@ -16,10 +16,10 @@ import { Flex } from '@/components/ui/Flex'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { useAuth } from '@/contexts/AuthContext'
 import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
-import { JournalEntry } from '@/features/transferSlip/components/JournalEntry'
-import { TransferSlipTableCell } from '@/features/transferSlip/components/TransferSlipTableCell'
-import { getJournalEntriesSchema, JournalEntriesSchemaType } from '@/features/transferSlip/schema'
-import { Account } from '@/features/transferSlip/types/account'
+import { JournalEntry } from '@/features/journalEntry/components/JournalEntry'
+import { JournalEntryTableCell } from '@/features/journalEntry/components/JournalEntryTableCell'
+import { getJournalEntriesSchema, JournalEntriesSchemaType } from '@/features/journalEntry/schema'
+import { Account } from '@/features/journalEntry/types/account'
 import axios from '@/utils/client/axios'
 
 type EntryMessage = {
@@ -51,7 +51,7 @@ type Props = {
   accounts: Account[]
 }
 
-export function TransferSlipTable({ accounts }: Props) {
+export function JournalEntryTable({ accounts }: Props) {
   const [entryLinesCount, setEntryLinesCount] = useState(defaultEntryLinesCount)
   const [debitTotal, setDebitTotal] = useState<number>(0)
   const [creditTotal, setCreditTotal] = useState<number>(0)
@@ -192,13 +192,13 @@ export function TransferSlipTable({ accounts }: Props) {
           <Table>
             <TableHead>
               <StyledTableRow>
-                <TransferSlipTableCell>Debit account</TransferSlipTableCell>
-                <TransferSlipTableCell>Sub account</TransferSlipTableCell>
-                <TransferSlipTableCell>Debit amount</TransferSlipTableCell>
-                <TransferSlipTableCell>Credit account</TransferSlipTableCell>
-                <TransferSlipTableCell>Sub account</TransferSlipTableCell>
-                <TransferSlipTableCell>Credit amount</TransferSlipTableCell>
-                <TransferSlipTableCell>Description</TransferSlipTableCell>
+                <JournalEntryTableCell>Debit account</JournalEntryTableCell>
+                <JournalEntryTableCell>Sub account</JournalEntryTableCell>
+                <JournalEntryTableCell>Debit amount</JournalEntryTableCell>
+                <JournalEntryTableCell>Credit account</JournalEntryTableCell>
+                <JournalEntryTableCell>Sub account</JournalEntryTableCell>
+                <JournalEntryTableCell>Credit amount</JournalEntryTableCell>
+                <JournalEntryTableCell>Description</JournalEntryTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -213,17 +213,17 @@ export function TransferSlipTable({ accounts }: Props) {
                 />
               ))}
               <StyledTableRow>
-                <TransferSlipTableCell> </TransferSlipTableCell>
-                <TransferSlipTableCell> </TransferSlipTableCell>
-                <TransferSlipTableCell>
+                <JournalEntryTableCell> </JournalEntryTableCell>
+                <JournalEntryTableCell> </JournalEntryTableCell>
+                <JournalEntryTableCell>
                   <b>total {debitTotal.toLocaleString()}</b>
-                </TransferSlipTableCell>
-                <TransferSlipTableCell> </TransferSlipTableCell>
-                <TransferSlipTableCell> </TransferSlipTableCell>
-                <TransferSlipTableCell>
+                </JournalEntryTableCell>
+                <JournalEntryTableCell> </JournalEntryTableCell>
+                <JournalEntryTableCell> </JournalEntryTableCell>
+                <JournalEntryTableCell>
                   <b>total {creditTotal.toLocaleString()}</b>
-                </TransferSlipTableCell>
-                <TransferSlipTableCell> </TransferSlipTableCell>
+                </JournalEntryTableCell>
+                <JournalEntryTableCell> </JournalEntryTableCell>
               </StyledTableRow>
             </TableBody>
           </Table>
