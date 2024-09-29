@@ -23,6 +23,7 @@ export async function getCompanyByToken(): Promise<Company | null> {
     select: {
       company: {
         select: {
+          id: true,
           name: true,
           industryClass: true,
           numberOfEmployees: true,

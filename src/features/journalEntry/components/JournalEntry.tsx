@@ -35,7 +35,7 @@ export function JournalEntry({
           value={String(watch(`journalEntries.${lineNumber}.debitAccountId`))}
           options={accounts.map((account) => {
             return {
-              id: Number(account.id),
+              value: Number(account.id),
               name: account.name,
             }
           })}
@@ -51,7 +51,7 @@ export function JournalEntry({
           options={getSubAccounts(watch(`journalEntries.${lineNumber}.debitAccountId`)).map(
             (account) => {
               return {
-                id: Number(account.id),
+                value: Number(account.id),
                 name: account.name,
               }
             },
@@ -77,7 +77,7 @@ export function JournalEntry({
           label='Credit account'
           options={accounts.map((account) => {
             return {
-              id: Number(account.id),
+              value: Number(account.id),
               name: account.name,
             }
           })}
@@ -93,7 +93,7 @@ export function JournalEntry({
           options={getSubAccounts(watch(`journalEntries.${lineNumber}.creditAccountId`)).map(
             (account) => {
               return {
-                id: Number(account.id),
+                value: Number(account.id),
                 name: account.name,
               }
             },

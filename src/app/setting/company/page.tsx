@@ -3,7 +3,7 @@ import React from 'react'
 import { styled } from 'styled-components'
 import { Flex } from '@/components/ui/Flex'
 import { mobileWidth } from '@/constants/screen'
-import { CompanyDetail } from '@/features/setting/components/company/CompanyDetail'
+import { CompanyDetail } from '@/features/setting/company/components/CompanyDetail'
 
 export default function Setting() {
   return (

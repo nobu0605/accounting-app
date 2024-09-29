@@ -6,6 +6,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import React from 'react'
 import { styled } from 'styled-components'
+import { Flex } from '@/components/ui/Flex'
 import { Account } from '@/features/journalEntry/types/account'
 
 type Props = {
@@ -14,17 +15,17 @@ type Props = {
 
 export function AccountsTable({ accounts }: Props) {
   return (
-    <StyledWrapperDiv>
-      <StyledTitleDiv>
+    <StyledWrapperFlex $direction='column' $gap='15px'>
+      <div>
         <StyledTitleSpan>Accounts setting</StyledTitleSpan>
-      </StyledTitleDiv>
+      </div>
       <Table>
         <TableHead>
           <StyledTableRow>
-            <StyledTableCell>id</StyledTableCell>
-            <StyledTableCell>name</StyledTableCell>
-            <StyledTableCell>code</StyledTableCell>
-            <StyledTableCell>type</StyledTableCell>
+            <StyledTableCell>Id</StyledTableCell>
+            <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell>Code</StyledTableCell>
+            <StyledTableCell>Type</StyledTableCell>
           </StyledTableRow>
         </TableHead>
         <TableBody>
@@ -38,21 +39,17 @@ export function AccountsTable({ accounts }: Props) {
           ))}
         </TableBody>
       </Table>
-    </StyledWrapperDiv>
+    </StyledWrapperFlex>
   )
 }
 
-const StyledWrapperDiv = styled('div')`
+const StyledWrapperFlex = styled(Flex)`
   margin-left: 40px;
   margin-right: 40px;
 `
 
 const StyledTitleSpan = styled('span')`
   font-size: 20px;
-`
-
-const StyledTitleDiv = styled('div')`
-  margin-bottom: 20px;
 `
 
 const StyledTableRow = styled(TableRow)`
@@ -62,6 +59,5 @@ const StyledTableRow = styled(TableRow)`
 `
 
 const StyledTableCell = styled(TableCell)`
-  border-right: 1px solid rgba(224, 224, 224, 1);
-  border-top: 1px solid rgba(224, 224, 224, 1);
+  border: 1px solid rgba(224, 224, 224, 1);
 `

@@ -72,7 +72,7 @@ CREATE TABLE "Account" (
     "id" BIGSERIAL NOT NULL,
     "companyId" BIGINT NOT NULL,
     "name" TEXT NOT NULL,
-    "code" TEXT NOT NULL,
+    "code" INTEGER NOT NULL,
     "type" "AccountType" NOT NULL,
     "isDefaultAccount" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -86,7 +86,7 @@ CREATE TABLE "SubAccount" (
     "id" BIGSERIAL NOT NULL,
     "accountId" BIGINT NOT NULL,
     "name" TEXT NOT NULL,
-    "code" TEXT NOT NULL,
+    "code" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -110,7 +110,7 @@ CREATE TABLE "JournalEntryLine" (
     "id" BIGSERIAL NOT NULL,
     "journalEntryId" BIGINT NOT NULL,
     "accountId" BIGINT NOT NULL,
-    "subAccountId" BIGINT NOT NULL,
+    "subAccountId" BIGINT,
     "debit" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "credit" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "description" TEXT,
@@ -169,10 +169,10 @@ ALTER TABLE "JournalEntry" ADD CONSTRAINT "JournalEntry_fiscalYearId_fkey" FOREI
 ALTER TABLE "JournalEntry" ADD CONSTRAINT "JournalEntry_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "JournalEntryLine" ADD CONSTRAINT "JournalEntryLine_journalEntryId_fkey" FOREIGN KEY ("journalEntryId") REFERENCES "JournalEntry"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "JournalEntryLine" ADD CONSTRAINT "JournalEntryLine_journalEntryId_fkey" FOREIGN KEY ("journalEntryId") REFERENCES "JournalEntry"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "JournalEntryLine" ADD CONSTRAINT "JournalEntryLine_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "JournalEntryLine" ADD CONSTRAINT "JournalEntryLine_subAccountId_fkey" FOREIGN KEY ("subAccountId") REFERENCES "SubAccount"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "JournalEntryLine" ADD CONSTRAINT "JournalEntryLine_subAccountId_fkey" FOREIGN KEY ("subAccountId") REFERENCES "SubAccount"("id") ON DELETE SET NULL ON UPDATE CASCADE;

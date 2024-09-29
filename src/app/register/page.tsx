@@ -58,14 +58,14 @@ export default function Register() {
   const onSubmit = async (data: RegisterSchemaType) => {
     setIsLoading(true)
     try {
-      setIsError(true)
-      setTimeout(() => {
-        setIsError(false)
-      }, 6000)
-      setErrorMessage(`Currently, registration is suspended.
-Please use the demo account from the login screen instead.`)
-      setIsLoading(false)
-      return
+      // setIsError(true)
+      // setTimeout(() => {
+      //   setIsError(false)
+      // }, 6000)
+      //       setErrorMessage(`Currently, registration is suspended.
+      // Please use the demo account from the login screen instead.`)
+      //       setIsLoading(false)
+      //       return
 
       // registration is suspended
       await axios.post('/auth/register', data)

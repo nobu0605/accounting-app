@@ -1,14 +1,14 @@
 import { verifyPassword, hashPassword } from '@/utils/api/auth'
 
-describe('check password strength', () => {
+describe('verifyPassword', () => {
   const password = 'Password123'
 
-  test('success verifyPassword', async () => {
+  test('success', async () => {
     const hashedPassword = await hashPassword(password)
     expect(await verifyPassword(password, hashedPassword)).toEqual(true)
   })
 
-  test('failure verifyPassword', async () => {
+  test('failure', async () => {
     const hashedPassword = await hashPassword(password)
     expect(await verifyPassword('password123', hashedPassword)).toEqual(false)
   })

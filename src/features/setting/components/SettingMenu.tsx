@@ -7,8 +7,12 @@ import { MenuCard } from '@/features/setting/components/MenuCard'
 
 const accountsMenus = [
   {
-    name: 'Accounts',
-    path: '/setting/accounts',
+    name: 'Accounts list',
+    path: '/setting/account',
+  },
+  {
+    name: 'Add new account',
+    path: '/setting/account/add',
   },
 ]
 

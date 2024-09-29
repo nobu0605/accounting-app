@@ -46,6 +46,9 @@ export async function GET(req: NextRequest) {
       where: {
         companyId,
       },
+      orderBy: {
+        code: 'asc',
+      },
     })
 
     if (accounts.length === 0) {
