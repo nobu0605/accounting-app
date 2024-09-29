@@ -35,6 +35,7 @@ export async function GET(req: NextRequest) {
         name: true,
         code: true,
         type: true,
+        isDefaultAccount: true,
         subAccounts: {
           select: {
             id: true,

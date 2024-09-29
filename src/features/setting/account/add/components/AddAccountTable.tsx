@@ -2,6 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TableBody, TableCell, TableHead, TableRow, Table } from '@mui/material'
 import { AccountType } from '@prisma/client'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
@@ -16,6 +17,8 @@ import { camelToLowerWithSpaces } from '@/utils/common/string'
 
 export function AddAccountsTable() {
   const [snackbarType, setSnackbarType] = useState<'error' | 'success' | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const {
     watch,
@@ -32,14 +35,17 @@ export function AddAccountsTable() {
   })
 
   async function onSubmit(data: AccountSchemaType) {
+    setIsSubmitting(true)
     try {
       await axios.post('/accounts/add', data)
       setSnackbarType('success')
       reset()
+      router.refresh()
     } catch (error) {
       setSnackbarType('error')
       console.error(error)
     }
+    setIsSubmitting(false)
   }
 
   return (
@@ -103,7 +109,9 @@ export function AddAccountsTable() {
             </TableBody>
           </Table>
           <Flex $content='end'>
-            <Button type='submit'>Register</Button>
+            <Button disabled={isSubmitting} type='submit'>
+              Register
+            </Button>
           </Flex>
         </StyledWrapperFlex>
       </form>
