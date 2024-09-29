@@ -4,7 +4,7 @@ export type Account = {
   id: bigint
   companyId: bigint
   name: string
-  code: string
+  code: number
   type: AccountType
   subAccounts?: SubAccount[]
 }
@@ -12,5 +12,5 @@ export type Account = {
 export type SubAccount = {
   id: bigint
   name: string
-  code: string
+  code: number
 }

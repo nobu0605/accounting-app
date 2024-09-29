@@ -4,7 +4,7 @@ import React from 'react'
 import { styled } from 'styled-components'
 import { Flex } from '@/components/ui/Flex'
 import { Loading } from '@/components/ui/Loading'
-import { useCompany } from '@/features/setting/hooks/company/useCompany'
+import { useCompany } from '@/features/setting/company/hooks/useCompany'
 
 export function CompanyDetail() {
   const { company, isLoading } = useCompany()

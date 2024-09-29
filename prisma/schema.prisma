@@ -96,7 +96,7 @@ model Account {
   id                 BigInt     @id @default(autoincrement())
   companyId          BigInt
   name               String
-  code               String     
+  code               Int
   type               AccountType
   isDefaultAccount   Boolean
   createdAt          DateTime   @default(now())
@@ -113,7 +113,7 @@ model SubAccount {
   id              BigInt    @id @default(autoincrement())
   accountId       BigInt
   name            String
-  code            String  
+  code            Int  
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   account         Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
