@@ -40,12 +40,12 @@ export function GroupSelect({
   errorMessage,
 }: Props) {
   function renderOptions() {
-    const optionsElements: ReactElement[] = []
+    const optionElements: ReactElement[] = []
 
     Object.keys(options).map((key) => {
-      optionsElements.push(<StyledListSubheader>{camelToLowerWithSpaces(key)}</StyledListSubheader>)
+      optionElements.push(<StyledListSubheader>{camelToLowerWithSpaces(key)}</StyledListSubheader>)
       options[key].forEach((option: Option) => {
-        optionsElements.push(
+        optionElements.push(
           <MenuItem key={option.value} value={option.value.toString()}>
             {option.name}
           </MenuItem>,
@@ -53,7 +53,7 @@ export function GroupSelect({
       })
     })
 
-    return optionsElements
+    return optionElements
   }
 
   return (
