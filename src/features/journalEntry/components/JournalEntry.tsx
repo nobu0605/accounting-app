@@ -1,8 +1,10 @@
 'use client'
 import { TableRow } from '@mui/material'
+import { useMemo } from 'react'
 import { UseFormWatch, UseFormSetValue } from 'react-hook-form'
 import { Select } from '@/components/ui/Select'
 import { TextField } from '@/components/ui/TextField'
+import { GroupSelect, GroupAccounts } from '@/features/journalEntry/components/GroupSelect'
 import { JournalEntryTableCell } from '@/features/journalEntry/components/JournalEntryTableCell'
 import { JournalEntriesSchemaType } from '@/features/journalEntry/schema'
 import { Account } from '@/features/journalEntry/types/account'
@@ -22,6 +24,21 @@ export function JournalEntry({
   accounts,
   calculateTotal,
 }: JournalEntryProps) {
+  const groupAccounts = useMemo(() => {
+    return accounts.reduce((accountObject, account) => {
+      if (!accountObject[account.type]) {
+        accountObject[account.type] = []
+      }
+
+      accountObject[account.type].push({
+        value: Number(account.id),
+        name: account.name,
+      })
+
+      return accountObject
+    }, {} as GroupAccounts)
+  }, [accounts])
+
   function getSubAccounts(accountId: number) {
     const account = accounts.find((account) => Number(account.id) === accountId)
     return account?.subAccounts || []
@@ -30,15 +47,10 @@ export function JournalEntry({
   return (
     <TableRow>
       <JournalEntryTableCell>
-        <Select
+        <GroupSelect
           label='Debit account'
           value={String(watch(`journalEntries.${lineNumber}.debitAccountId`))}
-          options={accounts.map((account) => {
-            return {
-              value: Number(account.id),
-              name: account.name,
-            }
-          })}
+          options={groupAccounts}
           onChange={(e) => {
             setValue(`journalEntries.${lineNumber}.debitAccountId`, Number(e.target.value))
           }}
@@ -72,15 +84,10 @@ export function JournalEntry({
         />
       </JournalEntryTableCell>
       <JournalEntryTableCell>
-        <Select
+        <GroupSelect
           value={String(watch(`journalEntries.${lineNumber}.creditAccountId`))}
           label='Credit account'
-          options={accounts.map((account) => {
-            return {
-              value: Number(account.id),
-              name: account.name,
-            }
-          })}
+          options={groupAccounts}
           onChange={(e) => {
             setValue(`journalEntries.${lineNumber}.creditAccountId`, Number(e.target.value))
           }}
