@@ -17,7 +17,7 @@ export function AccountsTable({ accounts }: Props) {
   const [snackbarType, setSnackbarType] = useState<'error' | 'success' | null>(null)
 
   async function handleDeleteAccount(accountId: bigint) {
-    if (!confirm('Are you sure you want to delete this account?')) {
+    if (!confirm(`Are you sure you want to delete this account id ${accountId}?`)) {
       return
     }
 
