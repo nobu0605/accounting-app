@@ -1,7 +1,15 @@
 import { useLayoutEffect, useState } from 'react'
+import { mobileWidth } from '@/constants/screen'
 
-export const useWindowSize = (): number[] => {
+type ReturnWindowSize = {
+  width: number
+  height: number
+  isMobile: boolean
+}
+
+export const useWindowSize = (): ReturnWindowSize => {
   const [size, setSize] = useState([0, 0])
+  const isMobile = size[0] < mobileWidth
 
   useLayoutEffect(() => {
     const updateSize = (): void => {
@@ -14,5 +22,9 @@ export const useWindowSize = (): number[] => {
     return () => window.removeEventListener('resize', updateSize)
   }, [])
 
-  return size
+  return {
+    width: size[0],
+    height: size[1],
+    isMobile,
+  }
 }

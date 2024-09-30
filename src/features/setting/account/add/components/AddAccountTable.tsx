@@ -11,6 +11,7 @@ import { Flex } from '@/components/ui/Flex'
 import { Select } from '@/components/ui/Select'
 import { Snackbar } from '@/components/ui/Snackbar'
 import { TextField } from '@/components/ui/TextField'
+import { mobileWidth } from '@/constants/screen'
 import { accountSchema, AccountSchemaType } from '@/features/setting/account/add/schema'
 import axios from '@/utils/client/axios'
 import { camelToLowerWithSpaces } from '@/utils/common/string'
@@ -124,6 +125,11 @@ const StyledWrapperFlex = styled(Flex)`
   margin-right: 40px;
   overflow-x: auto;
   min-width: 400px;
+
+  @media (max-width: ${mobileWidth}px) {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 `
 
 const StyledTableRow = styled(TableRow)`

@@ -11,12 +11,14 @@ import { Journal } from '@/features/journal/components/Journal'
 import { JournalRow } from '@/features/journal/types/journal'
 import { handleDownload } from '@/features/journal/utils/csv'
 import { JournalEntryTableCell } from '@/features/journalEntry/components/JournalEntryTableCell'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 type Props = {
   journals: JournalRow[]
 }
 
 export function JournalTable({ journals }: Props) {
+  const { isMobile } = useWindowSize()
   const journalsCSV = [
     [
       'Journal id',
@@ -46,7 +48,7 @@ export function JournalTable({ journals }: Props) {
 
   return (
     <Flex $direction='column' $gap={'15px'}>
-      <Flex $content='flex-end'>
+      <Flex $content={isMobile ? 'flex-start' : 'flex-end'}>
         <Button color='inherit' onClick={() => handleDownload(journalsCSV)}>
           CSV download
         </Button>

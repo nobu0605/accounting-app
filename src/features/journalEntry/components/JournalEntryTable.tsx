@@ -20,6 +20,7 @@ import { JournalEntry } from '@/features/journalEntry/components/JournalEntry'
 import { JournalEntryTableCell } from '@/features/journalEntry/components/JournalEntryTableCell'
 import { getJournalEntriesSchema, JournalEntriesSchemaType } from '@/features/journalEntry/schema'
 import { Account } from '@/features/journalEntry/types/account'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import axios from '@/utils/client/axios'
 
 type EntryMessage = {
@@ -64,6 +65,7 @@ export function JournalEntryTable({ accounts }: Props) {
   const fiscalYear = getFiscalYear()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
+  const { isMobile } = useWindowSize()
 
   const {
     watch,
@@ -235,7 +237,7 @@ export function JournalEntryTable({ accounts }: Props) {
             {invalidTotalError && (
               <ErrorMessage>Total debit and credit total amount must be grater than 0</ErrorMessage>
             )}
-            <Flex $direction='row' $content='flex-end' $gap={'15px'}>
+            <Flex $direction='row' $content={isMobile ? 'flex-start' : 'flex-end'} $gap={'15px'}>
               {entryLinesCount > 1 && (
                 <Button color='inherit' onClick={() => removeRow()}>
                   Remove a row
@@ -245,7 +247,7 @@ export function JournalEntryTable({ accounts }: Props) {
                 Add a row
               </Button>
             </Flex>
-            <Flex $content='flex-end'>
+            <Flex $content={isMobile ? 'flex-start' : 'flex-end'}>
               <Button disabled={isSubmitting} type='submit'>
                 Register
               </Button>
@@ -265,4 +267,5 @@ const StyledTableRow = styled(TableRow)`
 
 const StyledDatePickerDiv = styled.div`
   width: 20%;
+  min-width: 200px;
 `
