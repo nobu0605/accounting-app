@@ -86,7 +86,7 @@ export async function GET(req: NextRequest, { params }: { params: { fiscalYearId
         fiscalYearId,
       },
       orderBy: {
-        id: 'desc',
+        dealDate: 'asc',
       },
       take: 500,
     })

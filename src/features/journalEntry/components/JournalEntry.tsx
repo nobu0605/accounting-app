@@ -75,6 +75,7 @@ export function JournalEntry({
       </JournalEntryTableCell>
       <JournalEntryTableCell>
         <TextField
+          label='Debit amount'
           type='text'
           value={watch(`journalEntries.${lineNumber}.debitAmount`)}
           onChange={(e) => {
@@ -112,6 +113,7 @@ export function JournalEntry({
       </JournalEntryTableCell>
       <JournalEntryTableCell>
         <TextField
+          label='Credit amount'
           type='text'
           value={watch(`journalEntries.${lineNumber}.creditAmount`)}
           onChange={(e) => {
@@ -122,6 +124,7 @@ export function JournalEntry({
       </JournalEntryTableCell>
       <JournalEntryTableCell>
         <TextField
+          label='Description'
           value={watch(`journalEntries.${lineNumber}.description`) || ''}
           onChange={(e) => {
             setValue(`journalEntries.${lineNumber}.description`, e.target.value)
