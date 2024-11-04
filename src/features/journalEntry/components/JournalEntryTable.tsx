@@ -14,7 +14,6 @@ import { Button } from '@/components/ui/Button'
 import { DatePicker } from '@/components/ui/DatePicker'
 import { Flex } from '@/components/ui/Flex'
 import { Snackbar } from '@/components/ui/Snackbar'
-import { useAuth } from '@/contexts/AuthContext'
 import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import { JournalEntry } from '@/features/journalEntry/components/JournalEntry'
 import { JournalEntryTableCell } from '@/features/journalEntry/components/JournalEntryTableCell'
@@ -61,7 +60,6 @@ export function JournalEntryTable({ accounts }: Props) {
   const [invalidTotalError, setInvalidTotalError] = useState<boolean>(false)
   const invalidTotal = debitTotal === 0 || creditTotal === 0
   const [snackbarType, setSnackbarType] = useState<'error' | 'success' | null>(null)
-  const user = useAuth()
   const fiscalYear = getFiscalYear()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
@@ -99,7 +97,6 @@ export function JournalEntryTable({ accounts }: Props) {
     setIsSubmitting(true)
     try {
       await axios.post('/journal-entry', {
-        companyId: user?.companyId,
         fiscalYearId: fiscalYear?.id,
         dealDate: data.dealDate,
         journalEntries: data.journalEntries,
