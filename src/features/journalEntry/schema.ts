@@ -63,7 +63,6 @@ export function getJournalEntriesSchema(
 export type JournalEntriesSchemaType = z.infer<typeof journalEntriesSchema>
 
 export const journalEntriesSchemaForBackEnd = z.object({
-  companyId: z.number().min(1, 'company id is required'),
   fiscalYearId: z.number().min(1, 'fiscal year id is required'),
   dealDate: z.string(),
   journalEntries: z.array(z.object(journalEntry)),

@@ -2,6 +2,7 @@ import { JournalEntry } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
 import { journalEntriesSchemaForBackEnd } from '@/features/journalEntry/schema'
+import { getCompanyByToken } from '@/utils/api/company'
 import prisma from '@/utils/api/db'
 
 type JournalEntryLine = {
@@ -18,11 +19,7 @@ export async function POST(req: NextRequest) {
   const validatedData = journalEntriesSchemaForBackEnd.parse(request)
 
   try {
-    const company = await prisma.company.findUnique({
-      where: {
-        id: validatedData.companyId,
-      },
-    })
+    const company = await getCompanyByToken()
 
     if (!company) {
       return NextResponse.json(
@@ -39,7 +36,7 @@ export async function POST(req: NextRequest) {
     await prisma.$transaction(async (prisma) => {
       const journalEntry: JournalEntry = await prisma.journalEntry.create({
         data: {
-          companyId: validatedData.companyId,
+          companyId: company.id,
           fiscalYearId: validatedData.fiscalYearId,
           dealDate: validatedData.dealDate,
         },
