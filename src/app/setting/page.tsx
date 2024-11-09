@@ -1,7 +1,40 @@
 'use client'
+import BusinessIcon from '@mui/icons-material/Business'
+import CalculateIcon from '@mui/icons-material/Calculate'
 import React from 'react'
 import { styled } from 'styled-components'
-import { SettingMenu } from '@/features/setting/components/SettingMenu'
+import { MenuCards } from '@/components/common/menu/MenuCards'
+
+const accountsMenus = [
+  {
+    name: 'Accounts list',
+    path: '/setting/account',
+  },
+  {
+    name: 'Add new account',
+    path: '/setting/account/add',
+  },
+]
+
+const companyMenus = [
+  {
+    name: 'Company',
+    path: '/setting/company',
+  },
+]
+
+const menuContents = [
+  {
+    icon: <BusinessIcon />,
+    menuTitle: 'Organization',
+    menus: companyMenus,
+  },
+  {
+    icon: <CalculateIcon />,
+    menuTitle: 'Account',
+    menus: accountsMenus,
+  },
+]
 
 export default function Setting() {
   return (
@@ -9,7 +42,7 @@ export default function Setting() {
       <StyledTitleDiv>
         <h1>All Settings</h1>
       </StyledTitleDiv>
-      <SettingMenu />
+      <MenuCards menuContents={menuContents} />
     </StyledWrapperDiv>
   )
 }

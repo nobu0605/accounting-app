@@ -1,52 +1,53 @@
 'use client'
+import BackupTableIcon from '@mui/icons-material/BackupTable'
+import PieChartOutlineIcon from '@mui/icons-material/PieChartOutline'
 import React from 'react'
 import { styled } from 'styled-components'
-import { Flex } from '@/components/ui/Flex'
-import { Loading } from '@/components/ui/Loading'
-import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
-import { ReportGraph } from '@/features/report/components/ReportGraph'
-import { useReport } from '@/features/report/hooks/useReport'
-import { useWindowSize } from '@/hooks/useWindowSize'
+import { MenuCards } from '@/components/common/menu/MenuCards'
+
+const financialReportsMenus = [
+  {
+    name: 'Financial Report',
+    path: '/report/financial-report',
+  },
+]
+
+const analysisMenus = [
+  {
+    name: 'Financial Analysis',
+    path: '/report/analysis',
+  },
+]
+
+const menuContents = [
+  {
+    icon: <PieChartOutlineIcon />,
+    menuTitle: 'Analysis',
+    menus: analysisMenus,
+  },
+  {
+    icon: <BackupTableIcon />,
+    menuTitle: 'Financial Report',
+    menus: financialReportsMenus,
+  },
+]
 
 export default function Report() {
-  const fiscalYear = getFiscalYear()
-  const { reports, isLoading } = useReport(fiscalYear?.startDate, fiscalYear?.endDate)
-  const { isMobile } = useWindowSize()
-
-  if (isLoading) {
-    return (
-      <Flex $content='center'>
-        <Loading />
-      </Flex>
-    )
-  }
-
-  if (!reports) {
-    return (
-      <Flex $content='center'>
-        <span>no data</span>
-      </Flex>
-    )
-  }
-
   return (
-    <>
-      <h1>Financial Report</h1>
-      <StyledTableFlex $direction={isMobile ? 'column' : 'row'} $content='center'>
-        {Object.entries(reports).map(([key, report]) => (
-          <StyledGraphDiv key={key} width={isMobile ? '100%' : '30%'}>
-            <ReportGraph graphValues={report} />
-          </StyledGraphDiv>
-        ))}
-      </StyledTableFlex>
-    </>
+    <StyledWrapperDiv>
+      <StyledTitleDiv>
+        <h1>All Reports</h1>
+      </StyledTitleDiv>
+      <MenuCards menuContents={menuContents} />
+    </StyledWrapperDiv>
   )
 }
 
-const StyledTableFlex = styled(Flex)`
-  padding: 20px;
+const StyledWrapperDiv = styled('div')`
+  margin-left: 40px;
+  margin-right: 40px;
 `
 
-const StyledGraphDiv = styled('div')<{ width: string }>`
-  width: ${({ width }) => width};
+const StyledTitleDiv = styled('div')`
+  margin-bottom: 20px;
 `
