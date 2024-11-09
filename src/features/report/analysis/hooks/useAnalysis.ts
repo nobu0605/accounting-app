@@ -1,17 +1,17 @@
 import useSWR from 'swr'
-import { ReportType } from '@/features/report/types/report'
+import { ReportType } from '@/features/report/analysis/types/report'
 import axios from '@/utils/client/axios'
 
 const fetcher = (url: string) => axios.get<ReportType>(url).then((res) => res.data)
 
-export const useReport = (startDate: string | undefined, endDate: string | undefined) => {
+export const useAnalysis = (startDate: string | undefined, endDate: string | undefined) => {
   const { data, error, isLoading } = useSWR<ReportType>(
-    `/report?startDate=${startDate}&endDate=${endDate}`,
+    `/report/analysis?startDate=${startDate}&endDate=${endDate}`,
     fetcher,
   )
 
   return {
-    reports: data
+    analysis: data
       ? {
           equityRatio: data.equityRatio.map((item) => ({
             name: item.name,
