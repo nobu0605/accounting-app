@@ -1,3 +1,4 @@
+import { mobileWidth } from '@/constants/screen'
 import { Table, TableBody, TableCell, TableRow } from '@mui/material'
 import styled from 'styled-components'
 import { Flex } from '@/components/ui/Flex'
@@ -14,7 +15,7 @@ type Props = {
 
 export function FinancialReportTable({ accountTypeTotals, sectionTotals }: Props) {
   return (
-    <Flex $direction='row' $gap={'30px'}>
+    <Flex $wrap='wrap' $gap={'30px'}>
       <StyledFinancialReportFlex $direction='column'>
         <h2>Balance Sheet</h2>
         {/* Assets */}
@@ -114,7 +115,11 @@ export function FinancialReportTable({ accountTypeTotals, sectionTotals }: Props
 }
 
 const StyledFinancialReportFlex = styled(Flex)`
-  width: 50%;
+  width: 48%;
+
+  @media (max-width: ${mobileWidth}px) {
+    width: 100%;
+  }
 `
 
 const StyledTableCell = styled(TableCell)`

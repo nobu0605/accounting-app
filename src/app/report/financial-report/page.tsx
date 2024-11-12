@@ -1,4 +1,5 @@
 'use client'
+import { mobileWidth } from '@/constants/screen'
 import React from 'react'
 import { styled } from 'styled-components'
 import { Flex } from '@/components/ui/Flex'
@@ -46,6 +47,11 @@ export default function FinancialReport() {
 const StyledWrapperDiv = styled('div')`
   margin-left: 40px;
   margin-right: 40px;
+
+  @media (max-width: ${mobileWidth}px) {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 `
 
 const StyledTitleDiv = styled('div')`
