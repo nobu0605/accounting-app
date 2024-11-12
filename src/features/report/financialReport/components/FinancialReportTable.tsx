@@ -1,7 +1,7 @@
-import { mobileWidth } from '@/constants/screen'
 import { Table, TableBody, TableCell, TableRow } from '@mui/material'
 import styled from 'styled-components'
 import { Flex } from '@/components/ui/Flex'
+import { mobileWidth } from '@/constants/screen'
 import { AccountTypeTableRows } from '@/features/report/financialReport/components/AccountTypeTableRows'
 import {
   AccountTypeTotals,
