@@ -86,6 +86,8 @@ export async function GET(req: NextRequest) {
     'credit',
   )
 
+  const res = await getAggregatedTotals(companyId, startDate, endDate)
+
   const operatingProfit =
     salesResult[0].total -
     costOfGoodsSoldsResult[0].total -
@@ -186,4 +188,20 @@ function calculateRatio(totals: number[]) {
   })
 
   return ratios
+}
+
+async function getAggregatedTotals(companyId: number, startDate: string, endDate: string) {
+  const res: any = await prisma.$queryRaw`
+    SELECT 
+      SUM(CASE WHEN acc."type" = 'equity' THEN jel.credit - jel.debit ELSE 0 END) AS "equityTotal",
+      SUM(CASE WHEN acc."type" = 'currentAssets' THEN jel.debit - jel.credit ELSE 0 END) AS "currentAssetsTotal",
+      SUM(CASE WHEN acc."type" = 'costOfGoodsSold' THEN jel.debit - jel.credit ELSE 0 END) AS "costOfGoodsSoldTotal",
+      SUM(CASE WHEN acc."type" = 'sales' THEN jel.credit - jel.debit ELSE 0 END) AS "salesTotal"
+    FROM "JournalEntryLine" jel
+    INNER JOIN "Account" acc ON jel."accountId" = acc.id
+    INNER JOIN "JournalEntry" je ON jel."journalEntryId" = je.id
+    WHERE acc."companyId" = ${companyId}
+    AND je."dealDate" BETWEEN ${new Date(startDate)} AND ${new Date(endDate)};
+  `
+  return res[0]
 }
