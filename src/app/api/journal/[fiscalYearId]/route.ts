@@ -103,6 +103,7 @@ export async function GET(req: NextRequest, { params }: { params: { fiscalYearId
       )
     }
 
+    const pairOfJournal = 2
     journalEntries = serializeBigInt(journalEntries)
     journalEntries.forEach((journalEntry) => {
       for (let index = 0; index < journalEntry.lines.length; index) {
@@ -119,7 +120,7 @@ export async function GET(req: NextRequest, { params }: { params: { fiscalYearId
           creditAmount: journal.find((line) => line.credit > 0)?.credit,
           description: journal.find((line) => line.description)?.description,
         })
-        index = index + 2
+        index = index + pairOfJournal
       }
     })
 
