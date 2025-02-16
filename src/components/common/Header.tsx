@@ -52,8 +52,8 @@ export function Header({ isPrivateRoute }: Props) {
               {user && fiscalYear && (
                 <>
                   <span>
-                    Fiscal year : {dayjs(fiscalYear?.startDate).format('YYYY/MM')} ~{' '}
-                    {dayjs(fiscalYear?.endDate).format('YYYY/MM')}
+                    Fiscal year : {dayjs(fiscalYear?.startDate).format('YYYY/MM/DD')} ~{' '}
+                    {dayjs(fiscalYear?.endDate).format('YYYY/MM/DD')}
                   </span>
                   <Flex $direction='row' $gap={'8px'}>
                     <StyledUserInfoSpan>Email :{user?.email}</StyledUserInfoSpan>
