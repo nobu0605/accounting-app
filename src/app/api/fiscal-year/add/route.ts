@@ -1,18 +1,11 @@
 import dayjs from 'dayjs'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
+import { getCompanyByToken } from '@/utils/api/company'
 import prisma from '@/utils/api/db'
-import { getUserByToken } from '@/utils/api/user'
 
 export async function POST(req: NextRequest) {
-  const user = await getUserByToken()
-
-  const companyId = user?.companyId
-  const company = await prisma.company.findUnique({
-    where: {
-      id: companyId,
-    },
-  })
+  const company = await getCompanyByToken()
   if (!company) {
     return NextResponse.json(
       {
@@ -36,7 +29,7 @@ export async function POST(req: NextRequest) {
         id: 'desc',
       },
       where: {
-        companyId,
+        companyId: company.id,
       },
     })
 
