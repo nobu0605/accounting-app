@@ -1,6 +1,7 @@
 'use client'
 import BusinessIcon from '@mui/icons-material/Business'
 import CalculateIcon from '@mui/icons-material/Calculate'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import React from 'react'
 import { styled } from 'styled-components'
 import { MenuCards } from '@/components/common/menu/MenuCards'
@@ -11,7 +12,7 @@ const accountsMenus = [
     path: '/setting/account',
   },
   {
-    name: 'Add new account',
+    name: 'Add a new account',
     path: '/setting/account/add',
   },
 ]
@@ -20,6 +21,13 @@ const companyMenus = [
   {
     name: 'Company',
     path: '/setting/company',
+  },
+]
+
+const fiscalYearMenus = [
+  {
+    name: 'Fiscal year setting',
+    path: '/setting/fiscal-year',
   },
 ]
 
@@ -33,6 +41,11 @@ const menuContents = [
     icon: <CalculateIcon />,
     menuTitle: 'Account',
     menus: accountsMenus,
+  },
+  {
+    icon: <CalendarMonthIcon />,
+    menuTitle: 'Fiscal Year',
+    menus: fiscalYearMenus,
   },
 ]
 

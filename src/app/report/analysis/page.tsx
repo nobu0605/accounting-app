@@ -3,13 +3,13 @@ import React from 'react'
 import { styled } from 'styled-components'
 import { Flex } from '@/components/ui/Flex'
 import { Loading } from '@/components/ui/Loading'
-import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
+import { getSelectedFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import { ReportGraph } from '@/features/report/analysis/components/ReportGraph'
 import { useAnalysis } from '@/features/report/analysis/hooks/useAnalysis'
 import { useWindowSize } from '@/hooks/useWindowSize'
 
 export default function Analysis() {
-  const fiscalYear = getFiscalYear()
+  const fiscalYear = getSelectedFiscalYear()
   const { analysis, isLoading } = useAnalysis(fiscalYear?.startDate, fiscalYear?.endDate)
   const { isMobile } = useWindowSize()
 

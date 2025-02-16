@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/Button'
 import { DatePicker } from '@/components/ui/DatePicker'
 import { Flex } from '@/components/ui/Flex'
 import { Snackbar } from '@/components/ui/Snackbar'
-import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
+import { getSelectedFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import { JournalEntry } from '@/features/journalEntry/components/JournalEntry'
 import { JournalEntryTableCell } from '@/features/journalEntry/components/JournalEntryTableCell'
 import { getJournalEntriesSchema, JournalEntriesSchemaType } from '@/features/journalEntry/schema'
@@ -60,7 +60,7 @@ export function JournalEntryTable({ accounts }: Props) {
   const [invalidTotalError, setInvalidTotalError] = useState<boolean>(false)
   const invalidTotal = debitTotal === 0 || creditTotal === 0
   const [snackbarType, setSnackbarType] = useState<'error' | 'success' | null>(null)
-  const fiscalYear = getFiscalYear()
+  const fiscalYear = getSelectedFiscalYear()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
   const { isMobile } = useWindowSize()

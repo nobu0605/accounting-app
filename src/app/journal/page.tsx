@@ -2,12 +2,12 @@
 import { styled } from 'styled-components'
 import { Flex } from '@/components/ui/Flex'
 import { Loading } from '@/components/ui/Loading'
-import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
+import { getSelectedFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import { JournalTable } from '@/features/journal/components/JournalTable'
 import { useJournal } from '@/features/journal/hooks/useJournal'
 
 export default function Journal() {
-  const fiscalYear = getFiscalYear()
+  const fiscalYear = getSelectedFiscalYear()
   const { journals, isLoading } = useJournal(fiscalYear?.id)
 
   if (isLoading) {

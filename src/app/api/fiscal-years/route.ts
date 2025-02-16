@@ -6,7 +6,7 @@ import { serializeBigInt } from '@/utils/api/serialize'
 import { getUserByToken } from '@/utils/api/user'
 
 export async function GET(req: NextRequest) {
-  let fiscalYear: FiscalYear | null = null
+  let fiscalYears: FiscalYear[] = []
   const user = await getUserByToken()
 
   const companyId = user?.companyId
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const data = await prisma.fiscalYear.findFirst({
+    const data = await prisma.fiscalYear.findMany({
       select: {
         id: true,
         startDate: true,
@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
       },
     })
 
-    if (!data) {
+    if (data.length === 0) {
       return NextResponse.json(
         {
           error: {
@@ -54,8 +54,8 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    fiscalYear = serializeBigInt(data)
-    return NextResponse.json(fiscalYear)
+    fiscalYears = serializeBigInt(data)
+    return NextResponse.json(fiscalYears)
   } catch (error) {
     console.error('error: ', error)
     return NextResponse.json(

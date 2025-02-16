@@ -10,7 +10,7 @@ import { Menu } from '@/components/ui/Menu'
 import { mainColor } from '@/constants/colors'
 import { mobileWidth } from '@/constants/screen'
 import { useAuth } from '@/contexts/AuthContext'
-import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
+import { getSelectedFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import axios from '@/utils/client/axios'
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 
 export function Header({ isPrivateRoute }: Props) {
   const user = useAuth()
-  const fiscalYear = getFiscalYear()
+  const fiscalYear = getSelectedFiscalYear()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const router = useRouter()
 

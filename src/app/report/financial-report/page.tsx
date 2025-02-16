@@ -4,12 +4,12 @@ import { styled } from 'styled-components'
 import { Flex } from '@/components/ui/Flex'
 import { Loading } from '@/components/ui/Loading'
 import { mobileWidth } from '@/constants/screen'
-import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
+import { getSelectedFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import { FinancialReportTable } from '@/features/report/financialReport/components/FinancialReportTable'
 import { useFinancialReport } from '@/features/report/financialReport/hooks/useFinancialReport'
 
 export default function FinancialReport() {
-  const fiscalYear = getFiscalYear()
+  const fiscalYear = getSelectedFiscalYear()
   const { financialReports, isLoading } = useFinancialReport(
     fiscalYear?.startDate,
     fiscalYear?.endDate,
