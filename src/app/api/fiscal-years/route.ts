@@ -6,9 +6,9 @@ import prisma from '@/utils/api/db'
 import { serializeBigInt } from '@/utils/api/serialize'
 
 export async function GET(req: NextRequest) {
-  let fiscalYear: FiscalYear | null = null
-  const company = await getCompanyByToken()
+  let fiscalYears: FiscalYear[] = []
 
+  const company = await getCompanyByToken()
   if (!company) {
     return NextResponse.json(
       {
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const data = await prisma.fiscalYear.findFirst({
+    const data = await prisma.fiscalYear.findMany({
       select: {
         id: true,
         startDate: true,
@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
       },
     })
 
-    if (!data) {
+    if (data.length === 0) {
       return NextResponse.json(
         {
           error: {
@@ -48,8 +48,8 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    fiscalYear = serializeBigInt(data)
-    return NextResponse.json(fiscalYear)
+    fiscalYears = serializeBigInt(data)
+    return NextResponse.json(fiscalYears)
   } catch (error) {
     console.error('error: ', error)
     return NextResponse.json(

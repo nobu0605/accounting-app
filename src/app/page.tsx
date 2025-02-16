@@ -2,13 +2,13 @@
 import React from 'react'
 import { Flex } from '@/components/ui/Flex'
 import { Loading } from '@/components/ui/Loading'
-import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
+import { getSelectedFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import { RevenueAndExpenseGraph } from '@/features/home/components/RevenueAndExpenseGraph'
 import { RevenueAndExpenseTable } from '@/features/home/components/RevenueAndExpenseTable'
 import { useRevenueAndExpense } from '@/features/home/hooks/useRevenueAndExpense'
 
 export default function Home() {
-  const fiscalYear = getFiscalYear()
+  const fiscalYear = getSelectedFiscalYear()
   const { revenueAndExpense, isLoading } = useRevenueAndExpense(
     fiscalYear?.startDate,
     fiscalYear?.endDate,

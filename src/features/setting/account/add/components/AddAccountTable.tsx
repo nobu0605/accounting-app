@@ -67,7 +67,7 @@ export function AddAccountsTable() {
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <StyledWrapperFlex $direction='column' $gap='15px'>
           <div>
-            <h1>Add new account</h1>
+            <h1>Add a new account</h1>
           </div>
           <Table>
             <TableHead>

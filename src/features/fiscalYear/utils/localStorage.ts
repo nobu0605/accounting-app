@@ -6,7 +6,7 @@ const localStorageData =
 
 export const parsedData = JSON.parse(localStorageData)
 
-export function getFiscalYear(): FiscalYearSchemaType | null {
+export function getSelectedFiscalYear(): FiscalYearSchemaType | null {
   const result = fiscalYearSchema.safeParse(parsedData)
 
   if (result.success) {

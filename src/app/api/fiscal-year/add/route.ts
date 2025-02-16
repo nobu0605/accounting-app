@@ -1,14 +1,11 @@
+import dayjs from 'dayjs'
 import { NextRequest, NextResponse } from 'next/server'
 import { errorMessages } from '@/constants/error'
-import { FiscalYear } from '@/features/fiscalYear/types/fiscalYear'
 import { getCompanyByToken } from '@/utils/api/company'
 import prisma from '@/utils/api/db'
-import { serializeBigInt } from '@/utils/api/serialize'
 
-export async function GET(req: NextRequest) {
-  let fiscalYear: FiscalYear | null = null
+export async function POST(req: NextRequest) {
   const company = await getCompanyByToken()
-
   if (!company) {
     return NextResponse.json(
       {
@@ -22,7 +19,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const data = await prisma.fiscalYear.findFirst({
+    const latestFiscalYear = await prisma.fiscalYear.findFirst({
       select: {
         id: true,
         startDate: true,
@@ -36,7 +33,7 @@ export async function GET(req: NextRequest) {
       },
     })
 
-    if (!data) {
+    if (!latestFiscalYear) {
       return NextResponse.json(
         {
           error: {
@@ -48,8 +45,20 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    fiscalYear = serializeBigInt(data)
-    return NextResponse.json(fiscalYear)
+    await prisma.fiscalYear.create({
+      data: {
+        startDate: dayjs(latestFiscalYear.startDate).add(1, 'year').toDate(),
+        endDate: dayjs(latestFiscalYear.endDate).add(1, 'year').toDate(),
+        companyId: company.id,
+      },
+    })
+
+    return NextResponse.json(
+      {
+        message: 'Resource created successfully',
+      },
+      { status: 200 },
+    )
   } catch (error) {
     console.error('error: ', error)
     return NextResponse.json(

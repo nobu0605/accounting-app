@@ -1,5 +1,5 @@
 export type FiscalYear = {
-  id: bigint
+  id: number
   startDate: Date
   endDate: Date
 }

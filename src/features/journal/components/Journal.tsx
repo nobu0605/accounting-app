@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { mutate } from 'swr'
 import { Button } from '@/components/ui/Button'
 import { Snackbar } from '@/components/ui/Snackbar'
-import { getFiscalYear } from '@/features/fiscalYear/utils/localStorage'
+import { getSelectedFiscalYear } from '@/features/fiscalYear/utils/localStorage'
 import { JournalRow } from '@/features/journal/types/journal'
 import { JournalEntryTableCell } from '@/features/journalEntry/components/JournalEntryTableCell'
 import axios from '@/utils/client/axios'
@@ -15,7 +15,7 @@ type Props = {
 }
 
 export function Journal({ journal }: Props) {
-  const fiscalYear = getFiscalYear()
+  const fiscalYear = getSelectedFiscalYear()
   const [snackbarType, setSnackbarType] = useState<'error' | 'success' | null>(null)
 
   async function handleDelete() {
