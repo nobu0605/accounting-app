@@ -16,7 +16,13 @@ jobs:
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=nobu0605
+            -Dsonar.projectKey=nobu0605_accounting-app_2
+            -Dsonar.python.coverage.reportPaths=coverage.xml
         # with:
         #   projectBaseDir: src/app/api
       # - name: Checkout repository
