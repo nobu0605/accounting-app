@@ -19,22 +19,22 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: src/app/api
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      # - name: Checkout repository
+      #   uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
+      # - name: Install dependencies
+      #   run: npm install
 
-      - name: SonarCloud Scan
-        run: |
-          npx sonar-scanner \
-            -Dsonar.projectKey=nobu0605_accounting-app_2 \
-            -Dsonar.organization=nobu0605 \
-            -Dsonar.sources=src/app/api \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      # - name: SonarCloud Scan
+      #   run: |
+      #     npx sonar-scanner \
+      #       -Dsonar.projectKey=nobu0605_accounting-app_2 \
+      #       -Dsonar.organization=nobu0605 \
+      #       -Dsonar.sources=src/app/api \
+      #       -Dsonar.host.url=https://sonarcloud.io \
+      #       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
