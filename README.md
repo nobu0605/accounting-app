@@ -7,3 +7,7 @@
 ### Start application
 
 `npm run dev`
+
+### Run lint
+
+`npm run lint`
