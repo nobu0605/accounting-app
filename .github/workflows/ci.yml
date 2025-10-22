@@ -19,7 +19,6 @@ jobs:
       pull-requests: write
 
     env:
-      NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.DATABASE_URL }}
       JWT_SECRET: ${{ secrets.DATABASE_URL }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       DIRECT_URL: ${{ secrets.DATABASE_URL }}
