@@ -18,6 +18,9 @@ jobs:
       # Required to put a comment into the pull-request
       pull-requests: write
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
