@@ -18,4 +18,4 @@
 
 ### Storybook
 
-[https://accounting-app-storybook.vercel.app](https://https://accounting-app-storybook.vercel.app)
+[accounting-app-storybook.vercel.app](https://accounting-app-storybook.vercel.app)
