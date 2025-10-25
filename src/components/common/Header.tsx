@@ -58,7 +58,7 @@ export function Header({ isPrivateRoute }: Props) {
                   <Flex $direction='row' $gap={'8px'}>
                     <StyledUserInfoSpan>Email :{user?.email}</StyledUserInfoSpan>
                     <StyledUserNameSpan onClick={(e) => handleOpenNavMenu(e)}>
-                      <StyledtriangleSpan>▾</StyledtriangleSpan>User name :{user?.name}
+                      <StyledTriangleSpan>▾</StyledTriangleSpan>User name :{user?.name}
                     </StyledUserNameSpan>
                   </Flex>
                   <Menu anchorEl={anchorEl} setAnchorEl={setAnchorEl} menuItems={menuItems} />
@@ -143,7 +143,7 @@ const StyledUserNameSpan = styled('span')`
   cursor: pointer;
 `
 
-const StyledtriangleSpan = styled('span')`
+const StyledTriangleSpan = styled('span')`
   font-size: 12px;
   margin-right: 3px;
 `
