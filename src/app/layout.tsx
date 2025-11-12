@@ -1,5 +1,6 @@
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
 import './globals.css'
 import { Layout } from '@/components/common/Layout'
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </MuiLocalizationProvider>
         </StyledComponentsRegistry>
         <Analytics />
+        <SpeedInsights />
       </body>
       <GoogleAnalytics gaId='G-LNVCZ37LJY' />
     </html>
