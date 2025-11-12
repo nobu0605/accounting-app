@@ -1,4 +1,5 @@
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import './globals.css'
 import { Layout } from '@/components/common/Layout'
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </AuthProvider>
           </MuiLocalizationProvider>
         </StyledComponentsRegistry>
+        <Analytics />
       </body>
       <GoogleAnalytics gaId='G-LNVCZ37LJY' />
     </html>
