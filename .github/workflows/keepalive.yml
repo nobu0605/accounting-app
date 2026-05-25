@@ -12,12 +12,11 @@ jobs:
     steps:
       - name: Call production keepalive endpoint
         env:
-          PROD_APP_BASE_URL: ${{ secrets.PROD_APP_BASE_URL }}
           PROD_KEEP_ALIVE_SECRET: ${{ secrets.PROD_KEEP_ALIVE_SECRET }}
         run: |
           curl --fail --show-error --silent \
             --header "Authorization: Bearer ${PROD_KEEP_ALIVE_SECRET}" \
-            "${PROD_APP_BASE_URL}/api/internal/keepalive"
+            "https://accounting-app-six.vercel.app/api/internal/keepalive"
 
   dev-keepalive:
     runs-on: ubuntu-latest
