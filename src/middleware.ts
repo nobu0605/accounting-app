@@ -6,7 +6,12 @@ import { verifyJwt } from '@/utils/api/jwt'
 
 const env = process.env.NODE_ENV
 const allowedOrigins = ['localhost:3000', 'accounting-app-six.vercel.app']
-const apiUrlsWithoutAuth = ['/api/auth/register', '/api/auth/login', '/api/auth/me']
+const apiUrlsWithoutAuth = [
+  '/api/auth/register',
+  '/api/auth/login',
+  '/api/auth/me',
+  '/api/internal/keepalive',
+]
 
 export async function middleware(req: NextRequest) {
   const origin = req.headers.get('host') ?? ''
