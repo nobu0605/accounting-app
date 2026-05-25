@@ -1,0 +1,36 @@
+name: Supabase Keepalive
+
+on:
+  schedule:
+    - cron: '0 3 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  prod-keepalive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call production keepalive endpoint
+        env:
+          PROD_APP_BASE_URL: ${{ secrets.PROD_APP_BASE_URL }}
+          PROD_KEEP_ALIVE_SECRET: ${{ secrets.PROD_KEEP_ALIVE_SECRET }}
+        run: |
+          curl --fail --show-error --silent \
+            --header "Authorization: Bearer ${PROD_KEEP_ALIVE_SECRET}" \
+            "${PROD_APP_BASE_URL}/api/internal/keepalive"
+
+  dev-keepalive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call development Supabase keepalive RPC
+        env:
+          DEV_SUPABASE_URL: ${{ secrets.DEV_SUPABASE_URL }}
+          DEV_SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
+        run: |
+          curl --fail --show-error --silent \
+            --request POST \
+            --header "apikey: ${DEV_SUPABASE_ANON_KEY}" \
+            --header "Authorization: Bearer ${DEV_SUPABASE_ANON_KEY}" \
+            --header "Content-Type: application/json" \
+            "${DEV_SUPABASE_URL}/rest/v1/rpc/keepalive"
